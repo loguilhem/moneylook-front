@@ -1,134 +1,192 @@
 export const frequencyOptions = [
-  { value: 'hebdomadaire', label: 'Hebdomadaire' },
-  { value: 'mensuel', label: 'Mensuel' },
-  { value: 'annuel', label: 'Annuel' },
+  { value: 'weekly', labelKey: 'resources.frequency.weekly' },
+  { value: 'monthly', labelKey: 'resources.frequency.monthly' },
+  { value: 'yearly', labelKey: 'resources.frequency.yearly' },
+]
+
+export const datePolicyOptions = [
+  { value: 'same_day', labelKey: 'resources.datePolicy.sameDay' },
+  { value: 'last_day_of_month', labelKey: 'resources.datePolicy.lastDayOfMonth' },
+  { value: 'first_business_day', labelKey: 'resources.datePolicy.firstBusinessDay' },
+  { value: 'last_business_day', labelKey: 'resources.datePolicy.lastBusinessDay' },
 ]
 
 export const resources = [
   {
     key: 'categories',
-    label: 'Catégories',
-    singular: 'catégorie',
+    labelKey: 'resources.categories.label',
+    singularKey: 'resources.categories.singular',
     endpoint: '/categories',
     idParam: 'category_id',
-    description: 'Classer les dépenses avec couleur et icône.',
+    descriptionKey: 'resources.categories.description',
     fields: [
-      { name: 'name', label: 'Nom', type: 'text', required: true },
-      { name: 'icon_html', label: 'Icône HTML', type: 'text', required: true },
-      { name: 'color', label: 'Couleur', type: 'color', required: true, defaultValue: '#00aeef' },
+      { name: 'name', labelKey: 'resources.fields.name', type: 'text', required: true },
+      { name: 'icon_html', labelKey: 'resources.fields.iconHtml', type: 'text', required: true },
+      { name: 'color', labelKey: 'resources.fields.color', type: 'color', required: true, defaultValue: '#00aeef' },
     ],
   },
   {
     key: 'expenses',
-    label: 'Dépenses',
-    singular: 'dépense',
+    labelKey: 'resources.expenses.label',
+    singularKey: 'resources.expenses.singular',
     endpoint: '/expenses',
     idParam: 'expense_id',
-    description: 'Suivre les sorties, catégories et comptes concernés.',
+    descriptionKey: 'resources.expenses.description',
     fields: [
-      { name: 'date', label: 'Date', type: 'date', required: true },
-      { name: 'label', label: 'Libellé', type: 'text', required: true },
-      { name: 'amount_cents', label: 'Montant (centimes)', type: 'number', required: true },
-      { name: 'category_id', label: 'Catégorie', type: 'select', source: 'categories', required: true },
-      { name: 'bank_account_id', label: 'Compte', type: 'select', source: 'bankAccounts', required: true },
-      { name: 'recurring_expense_id', label: 'Dépense récurrente', type: 'select', source: 'recurringExpenses', optional: true },
+      { name: 'date', labelKey: 'resources.fields.date', type: 'date', required: true },
+      { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
+      { name: 'amount_cents', labelKey: 'resources.fields.amount', type: 'money', required: true },
+      { name: 'category_id', labelKey: 'resources.fields.category', type: 'select', source: 'categories', required: true },
+      { name: 'bank_account_id', labelKey: 'resources.fields.bankAccount', type: 'select', source: 'bankAccounts', required: true },
     ],
   },
   {
     key: 'recurringExpenses',
-    label: 'Dépenses récurrentes',
-    singular: 'dépense récurrente',
+    labelKey: 'resources.recurringExpenses.label',
+    singularKey: 'resources.recurringExpenses.singular',
     endpoint: '/recurring-expenses',
     idParam: 'recurring_expense_id',
-    description: 'Gérer les charges qui reviennent selon une fréquence.',
+    descriptionKey: 'resources.recurringExpenses.description',
     fields: [
-      { name: 'label', label: 'Libellé', type: 'text', required: true },
-      { name: 'amount_cents', label: 'Montant (centimes)', type: 'number', required: true },
-      { name: 'start_date', label: 'Début', type: 'date', required: true },
-      { name: 'end_date', label: 'Fin', type: 'date', optional: true },
+      { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
+      { name: 'amount_cents', labelKey: 'resources.fields.amount', type: 'money', required: true },
+      { name: 'is_active', labelKey: 'resources.fields.isActive', type: 'boolean', required: true, defaultValue: true },
       {
-        name: 'frequency',
-        label: 'Fréquence',
+        name: 'date_policy',
+        labelKey: 'resources.fields.datePolicy',
         type: 'static-select',
         required: true,
-        defaultValue: 'mensuel',
+        defaultValue: 'same_day',
+        options: datePolicyOptions,
+      },
+      {
+        name: 'frequency',
+        labelKey: 'resources.fields.frequency',
+        type: 'static-select',
+        required: true,
+        defaultValue: 'monthly',
         options: frequencyOptions,
       },
-      { name: 'category_id', label: 'Catégorie', type: 'select', source: 'categories', required: true },
-      { name: 'bank_account_id', label: 'Compte', type: 'select', source: 'bankAccounts', required: true },
+      { name: 'category_id', labelKey: 'resources.fields.category', type: 'select', source: 'categories', required: true },
+      { name: 'bank_account_id', labelKey: 'resources.fields.bankAccount', type: 'select', source: 'bankAccounts', required: true },
     ],
   },
   {
     key: 'incomes',
-    label: 'Revenus',
-    singular: 'revenu',
+    labelKey: 'resources.incomes.label',
+    singularKey: 'resources.incomes.singular',
     endpoint: '/incomes',
     idParam: 'income_id',
-    description: 'Enregistrer les entrées et le compte associé.',
+    descriptionKey: 'resources.incomes.description',
     fields: [
-      { name: 'date', label: 'Date', type: 'date', required: true },
-      { name: 'label', label: 'Libellé', type: 'text', required: true },
-      { name: 'amount_cents', label: 'Montant (centimes)', type: 'number', required: true },
-      { name: 'category_id', label: 'Catégorie', type: 'select', source: 'categories', optional: true },
-      { name: 'bank_account_id', label: 'Compte', type: 'select', source: 'bankAccounts', required: true },
-      { name: 'recurring_income_id', label: 'Revenu récurrent', type: 'select', source: 'recurringIncomes', optional: true },
+      { name: 'date', labelKey: 'resources.fields.date', type: 'date', required: true },
+      { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
+      { name: 'amount_cents', labelKey: 'resources.fields.amount', type: 'money', required: true },
+      { name: 'category_id', labelKey: 'resources.fields.category', type: 'select', source: 'categories', optional: true },
+      { name: 'bank_account_id', labelKey: 'resources.fields.bankAccount', type: 'select', source: 'bankAccounts', required: true },
     ],
   },
   {
     key: 'recurringIncomes',
-    label: 'Revenus récurrents',
-    singular: 'revenu récurrent',
+    labelKey: 'resources.recurringIncomes.label',
+    singularKey: 'resources.recurringIncomes.singular',
     endpoint: '/recurring-incomes',
     idParam: 'recurring_income_id',
-    description: 'Gérer les entrées qui reviennent selon une fréquence.',
+    descriptionKey: 'resources.recurringIncomes.description',
     fields: [
-      { name: 'label', label: 'Libellé', type: 'text', required: true },
-      { name: 'amount_cents', label: 'Montant (centimes)', type: 'number', required: true },
-      { name: 'start_date', label: 'Début', type: 'date', required: true },
-      { name: 'end_date', label: 'Fin', type: 'date', optional: true },
+      { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
+      { name: 'amount_cents', labelKey: 'resources.fields.amount', type: 'money', required: true },
+      { name: 'is_active', labelKey: 'resources.fields.isActive', type: 'boolean', required: true, defaultValue: true },
       {
-        name: 'frequency',
-        label: 'Fréquence',
+        name: 'date_policy',
+        labelKey: 'resources.fields.datePolicy',
         type: 'static-select',
         required: true,
-        defaultValue: 'mensuel',
+        defaultValue: 'same_day',
+        options: datePolicyOptions,
+      },
+      {
+        name: 'frequency',
+        labelKey: 'resources.fields.frequency',
+        type: 'static-select',
+        required: true,
+        defaultValue: 'monthly',
         options: frequencyOptions,
       },
-      { name: 'bank_account_id', label: 'Compte', type: 'select', source: 'bankAccounts', required: true },
+      { name: 'bank_account_id', labelKey: 'resources.fields.bankAccount', type: 'select', source: 'bankAccounts', required: true },
     ],
   },
   {
     key: 'bankAccounts',
-    label: 'Comptes bancaires',
-    singular: 'compte bancaire',
+    labelKey: 'resources.bankAccounts.label',
+    singularKey: 'resources.bankAccounts.singular',
     endpoint: '/bank-accounts',
     idParam: 'bank_account_id',
-    description: 'Lister les comptes et leur devise.',
+    descriptionKey: 'resources.bankAccounts.description',
     fields: [
-      { name: 'label', label: 'Libellé', type: 'text', required: true },
-      { name: 'currency', label: 'Devise', type: 'text', required: true, defaultValue: 'CHF' },
-      { name: 'account_type_id', label: 'Type de compte', type: 'select', source: 'accountTypes', required: true },
+      { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
+      { name: 'currency', labelKey: 'resources.fields.currency', type: 'text', required: true, defaultValue: 'CHF' },
+      { name: 'account_type_id', labelKey: 'resources.fields.accountType', type: 'select', source: 'accountTypes', required: true },
     ],
   },
   {
     key: 'accountTypes',
-    label: 'Types de compte',
-    singular: 'type de compte',
+    labelKey: 'resources.accountTypes.label',
+    singularKey: 'resources.accountTypes.singular',
     endpoint: '/account-types',
     idParam: 'account_type_id',
-    description: 'Définir les familles de comptes.',
-    fields: [{ name: 'name', label: 'Nom', type: 'text', required: true }],
+    descriptionKey: 'resources.accountTypes.description',
+    fields: [{ name: 'name', labelKey: 'resources.fields.name', type: 'text', required: true }],
   },
 ]
 
 export const resourceByKey = Object.fromEntries(resources.map((resource) => [resource.key, resource]))
 
+export function translateResource(resource, t) {
+  return {
+    ...resource,
+    label: t(resource.labelKey),
+    singular: t(resource.singularKey),
+    description: t(resource.descriptionKey),
+    fields: resource.fields.map((field) => ({
+      ...field,
+      label: t(field.labelKey),
+      falseLabel: field.type === 'boolean' ? t('common.no') : undefined,
+      trueLabel: field.type === 'boolean' ? t('common.yes') : undefined,
+      options: field.options?.map((option) => ({
+        ...option,
+        label: t(option.labelKey),
+      })),
+    })),
+  }
+}
+
+export function getTranslatedResources(t) {
+  return resources.map((resource) => translateResource(resource, t))
+}
+
+export function getTranslatedResourceByKey(t) {
+  return Object.fromEntries(getTranslatedResources(t).map((resource) => [resource.key, resource]))
+}
+
+export function getHomePages(t) {
+  return [
+    {
+      key: 'stats',
+      label: t('resources.stats.label'),
+      countLabel: '7',
+      description: t('resources.stats.description'),
+    },
+    ...getTranslatedResources(t),
+  ]
+}
+
 export const homePages = [
   {
     key: 'stats',
-    label: 'Stats',
+    labelKey: 'resources.stats.label',
     countLabel: '7',
-    description: 'Afficher les totaux, la balance et les répartitions sur une seule page.',
+    descriptionKey: 'resources.stats.description',
   },
   ...resources,
 ]

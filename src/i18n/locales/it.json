@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "ariaLabel": "Navigazione principale",
+    "home": "Home",
+    "stats": "Statistiche",
+    "categories": "Categorie",
+    "expenses": "Spese",
+    "recurringExpenses": "Spese ricorrenti",
+    "incomes": "Entrate",
+    "recurringIncomes": "Entrate ricorrenti",
+    "bankAccounts": "Conti bancari",
+    "accountTypes": "Tipi di conto",
+    "language": "Lingua",
+    "logout": "Disconnetti"
+  },
+  "footer": {
+    "developpedBy": "Sviluppato da"
+  },
+  "session": {
+    "checkingSession": "Verifica della sessione"
+  },
+  "login": {
+    "login": "Accedi",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Ricordami",
+    "logging": "Accesso in corso..."
+  },
+  "home": {
+    "availablePages": "Pagine disponibili",
+    "loadingPages": "Caricamento delle pagine",
+    "logoutDescription": "Chiudi la sessione su questo dispositivo."
+  },
+  "resources": {
+    "notFound": "Risorsa non trovata.",
+    "frequency": {
+      "weekly": "Settimanale",
+      "monthly": "Mensile",
+      "yearly": "Annuale"
+    },
+    "fields": {
+      "accountType": "Tipo di conto",
+      "amount": "Importo",
+      "bankAccount": "Conto",
+      "category": "Categoria",
+      "color": "Colore",
+      "currency": "Valuta",
+      "date": "Data",
+      "endDate": "Fine",
+      "frequency": "Frequenza",
+      "iconHtml": "Icona HTML",
+      "label": "Etichetta",
+      "name": "Nome",
+      "startDate": "Inizio"
+    },
+    "stats": {
+      "label": "Statistiche",
+      "description": "Visualizza totali, saldo e dettagli in un'unica pagina."
+    },
+    "categories": {
+      "label": "Categorie",
+      "singular": "categoria",
+      "description": "Classifica le spese con colore e icona."
+    },
+    "expenses": {
+      "label": "Spese",
+      "singular": "spesa",
+      "description": "Tieni traccia delle uscite, categorie e conti."
+    },
+    "recurringExpenses": {
+      "label": "Spese ricorrenti",
+      "singular": "spesa ricorrente",
+      "description": "Gestisci le spese ricorrenti per frequenza."
+    },
+    "incomes": {
+      "label": "Entrate",
+      "singular": "entrata",
+      "description": "Registra i pagamenti in entrata e il conto associato."
+    },
+    "recurringIncomes": {
+      "label": "Entrate ricorrenti",
+      "singular": "entrata ricorrente",
+      "description": "Gestisci le entrate ricorrenti per frequenza."
+    },
+    "bankAccounts": {
+      "label": "Conti bancari",
+      "singular": "conto bancario",
+      "description": "Elenca i conti e le relative valute."
+    },
+    "accountTypes": {
+      "label": "Tipi di conto",
+      "singular": "tipo di conto",
+      "description": "Definisci le famiglie di conti."
+    }
+  }
+}

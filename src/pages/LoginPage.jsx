@@ -1,109 +1,96 @@
-import { useMemo, useState } from 'react'
-import logo from '../assets/logo.png'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../context/AppContext'
+import { useTranslation } from 'react-i18next'
 
-const REMEMBERED_EMAIL_KEY = 'moneylook.rememberedEmail'
+const REMEMBERED_LOGIN_KEY = 'moneylook-remembered-login'
 
-function createCaptcha() {
-  const left = Math.floor(Math.random() * 8) + 2
-  const right = Math.floor(Math.random() * 8) + 2
+function getRememberedLogin() {
+  const rememberedLogin = localStorage.getItem(REMEMBERED_LOGIN_KEY)
 
-  return {
-    answer: left + right,
-    question: `${left} + ${right}`,
+  if (!rememberedLogin) {
+    return null
+  }
+
+  try {
+    return JSON.parse(rememberedLogin)
+  } catch {
+    localStorage.removeItem(REMEMBERED_LOGIN_KEY)
+    return null
   }
 }
 
-function LoginPage({ error, loading, onLogin }) {
-  const rememberedEmail = useMemo(() => localStorage.getItem(REMEMBERED_EMAIL_KEY) ?? '', [])
-  const [email, setEmail] = useState(rememberedEmail)
-  const [password, setPassword] = useState('')
-  const [rememberUser, setRememberUser] = useState(Boolean(rememberedEmail))
-  const [captcha, setCaptcha] = useState(() => createCaptcha())
-  const [captchaAnswer, setCaptchaAnswer] = useState('')
-  const [captchaError, setCaptchaError] = useState('')
+function LoginPage() {
+  const navigate = useNavigate()
+  const { login, authError, authLoading } = useAppContext()
+  const [rememberMe, setRememberMe] = useState(() => Boolean(getRememberedLogin()))
+  const [form, setForm] = useState(() => {
+    const rememberedLogin = getRememberedLogin()
 
-  function resetCaptcha() {
-    setCaptcha(createCaptcha())
-    setCaptchaAnswer('')
-  }
+    return {
+      email: rememberedLogin?.email ?? '',
+      password: rememberedLogin?.password ?? '',
+    }
+  })
+  const { t } = useTranslation()
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault()
 
-    if (Number(captchaAnswer) !== captcha.answer) {
-      setCaptchaError('Captcha incorrect.')
-      resetCaptcha()
-      return
-    }
+    try {
+      await login(form)
 
-    setCaptchaError('')
-    if (rememberUser) {
-      localStorage.setItem(REMEMBERED_EMAIL_KEY, email)
-    } else {
-      localStorage.removeItem(REMEMBERED_EMAIL_KEY)
-    }
+      if (rememberMe) {
+        localStorage.setItem(REMEMBERED_LOGIN_KEY, JSON.stringify(form))
+      } else {
+        localStorage.removeItem(REMEMBERED_LOGIN_KEY)
+      }
 
-    onLogin({ email, password })
+      navigate('/', { replace: true })
+    } catch {
+      // le message est déjà géré dans le contexte
+    }
   }
 
   return (
     <main className="login-page">
       <section className="login-panel">
-        <img className="login-logo" src={logo} alt="Moneylook" />
-        <p className="eyebrow">Moneylook</p>
-        <h1>Connexion</h1>
-        <form onSubmit={submit}>
-          <div className="form-grid">
-            <label>
-              <span>Email</span>
-              <input
-                autoComplete="email"
-                type="email"
-                value={email}
-                required
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>Mot de passe</span>
-              <input
-                autoComplete="current-password"
-                type="password"
-                value={password}
-                required
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </label>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={rememberUser}
-                onChange={(event) => setRememberUser(event.target.checked)}
-              />
-              <span>Se souvenir de l'utilisateur</span>
-            </label>
-            <label>
-              <span>Captcha simple: {captcha.question}</span>
-              <input
-                inputMode="numeric"
-                type="number"
-                value={captchaAnswer}
-                required
-                onChange={(event) => setCaptchaAnswer(event.target.value)}
-              />
-            </label>
-          </div>
-          {captchaError ? <p className="alert">{captchaError}</p> : null}
-          {error ? <p className="alert">{error}</p> : null}
-          <button className="primary-button" disabled={loading} type="submit">
-            {loading ? (
-              <span className="loader-label">
-                <span className="loader-spinner" aria-hidden="true" />
-                Connexion
-              </span>
-            ) : (
-              'Se connecter'
-            )}
+        <h1>{t('login.login')}</h1>
+
+        {authError ? <p className="alert">{authError}</p> : null}
+
+        <form className="form-grid" onSubmit={submit}>
+          <label>
+            <span>{t('login.email')}</span>
+            <input
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+            />
+          </label>
+
+          <label>
+            <span>{t('login.password')}</span>
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={form.password}
+              onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+            />
+          </label>
+
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(event) => setRememberMe(event.target.checked)}
+            />
+            <span>{t('login.rememberMe')}</span>
+          </label>
+
+          <button className="primary-button" disabled={authLoading} type="submit">
+            {authLoading ? t('login.logging') : t('login.login')}
           </button>
         </form>
       </section>

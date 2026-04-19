@@ -2,6 +2,16 @@ import { resourceByKey } from './resources'
 
 export const HOME_PAGE = 'home'
 
+const resourceRoutes = {
+  accountTypes: 'account-types',
+  bankAccounts: 'bank-accounts',
+  categories: 'categories',
+  expenses: 'expenses',
+  incomes: 'incomes',
+  recurringExpenses: 'recurring-expenses',
+  recurringIncomes: 'recurring-incomes',
+}
+
 export function pageFromPath(pathname) {
   const cleanPath = pathname.replace(/\/+$/, '') || '/'
 
@@ -26,5 +36,13 @@ export function pathFromPage(pageKey) {
     return '/'
   }
 
-  return `/app/${encodeURIComponent(pageKey)}`
+  if (pageKey === 'stats') {
+    return '/stats'
+  }
+
+  if (resourceByKey[pageKey]) {
+    return `/resource/${resourceRoutes[pageKey] ?? pageKey}`
+  }
+
+  return `/${encodeURIComponent(pageKey)}`
 }

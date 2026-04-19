@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "ariaLabel": "Navigation principale",
+    "home": "Accueil",
+    "stats": "Stats",
+    "categories": "Catégories",
+    "expenses": "Dépenses",
+    "recurringExpenses": "Dépenses récurrentes",
+    "incomes": "Revenus",
+    "recurringIncomes": "Revenus récurrents",
+    "bankAccounts": "Comptes bancaires",
+    "accountTypes": "Types de compte",
+    "language": "Langue",
+    "logout": "Déconnexion"
+  },
+  "footer": {
+    "developpedBy": "Développé par"
+  },
+  "session": {
+    "checkingSession": "Vérification de la session"
+  },
+  "common": {
+    "no": "Non",
+    "yes": "Oui"
+  },
+  "login": {
+    "login": "Connexion",
+    "email": "e-mail",
+    "password": "Mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "logging": "Connexion..."
+  },
+  "home": {
+    "availablePages": "Pages disponibles",
+    "loadingPages": "Chargement des pages",
+    "logoutDescription": "Fermer la session sur cet appareil."
+  },
+  "resources": {
+    "notFound": "Ressource introuvable.",
+    "frequency": {
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuelle",
+      "yearly": "Annuelle"
+    },
+    "datePolicy": {
+      "sameDay": "Même jour",
+      "lastDayOfMonth": "Dernier jour du mois",
+      "firstBusinessDay": "Premier jour ouvré",
+      "lastBusinessDay": "Dernier jour ouvré"
+    },
+    "fields": {
+      "accountType": "Type de compte",
+      "amount": "Montant",
+      "bankAccount": "Compte",
+      "category": "Catégorie",
+      "color": "Couleur",
+      "currency": "Devise",
+      "date": "Date",
+      "datePolicy": "Politique de date",
+      "frequency": "Fréquence",
+      "iconHtml": "Icône HTML",
+      "isActive": "Actif",
+      "label": "Libellé",
+      "name": "Nom"
+    },
+    "stats": {
+      "label": "Stats",
+      "description": "Afficher les totaux, la balance et les répartitions sur une seule page."
+    },
+    "categories": {
+      "label": "Catégories",
+      "singular": "catégorie",
+      "description": "Classer les dépenses avec couleur et icône."
+    },
+    "expenses": {
+      "label": "Dépenses",
+      "singular": "dépense",
+      "description": "Suivre les sorties, catégories et comptes concernés."
+    },
+    "recurringExpenses": {
+      "label": "Dépenses récurrentes",
+      "singular": "dépense récurrente",
+      "description": "Gérer les charges qui reviennent selon une fréquence."
+    },
+    "incomes": {
+      "label": "Revenus",
+      "singular": "revenu",
+      "description": "Enregistrer les entrées et le compte associé."
+    },
+    "recurringIncomes": {
+      "label": "Revenus récurrents",
+      "singular": "revenu récurrent",
+      "description": "Gérer les entrées qui reviennent selon une fréquence."
+    },
+    "bankAccounts": {
+      "label": "Comptes bancaires",
+      "singular": "compte bancaire",
+      "description": "Lister les comptes et leur devise."
+    },
+    "accountTypes": {
+      "label": "Types de compte",
+      "singular": "type de compte",
+      "description": "Définir les familles de comptes."
+    }
+  }
+}

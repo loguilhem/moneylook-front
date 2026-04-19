@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "ariaLabel": "Hauptnavigation",
+    "home": "Startseite",
+    "stats": "Statistiken",
+    "categories": "Kategorien",
+    "expenses": "Ausgaben",
+    "recurringExpenses": "Wiederkehrende Ausgaben",
+    "incomes": "Einnahmen",
+    "recurringIncomes": "Wiederkehrende Einnahmen",
+    "bankAccounts": "Bankkonten",
+    "accountTypes": "Kontotypen",
+    "language": "Sprache",
+    "logout": "Abmelden"
+  },
+  "footer": {
+    "developpedBy": "Entwickelt von"
+  },
+  "session": {
+    "checkingSession": "Sitzung wird überprüft"
+  },
+  "login": {
+    "login": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "rememberMe": "Angemeldet bleiben",
+    "logging": "Anmeldung läuft..."
+  },
+  "home": {
+    "availablePages": "Verfügbare Seiten",
+    "loadingPages": "Seiten werden geladen",
+    "logoutDescription": "Die Sitzung auf diesem Gerät beenden."
+  },
+  "resources": {
+    "notFound": "Ressource nicht gefunden.",
+    "frequency": {
+      "weekly": "Wöchentlich",
+      "monthly": "Monatlich",
+      "yearly": "Jährlich"
+    },
+    "fields": {
+      "accountType": "Kontotyp",
+      "amount": "Betrag",
+      "bankAccount": "Konto",
+      "category": "Kategorie",
+      "color": "Farbe",
+      "currency": "Währung",
+      "date": "Datum",
+      "endDate": "Ende",
+      "frequency": "Frequenz",
+      "iconHtml": "HTML-Icon",
+      "label": "Bezeichnung",
+      "name": "Name",
+      "startDate": "Start"
+    },
+    "stats": {
+      "label": "Statistiken",
+      "description": "Gesamtsummen, Saldo und Aufschlüsselungen auf einer Seite anzeigen."
+    },
+    "categories": {
+      "label": "Kategorien",
+      "singular": "Kategorie",
+      "description": "Ausgaben mit Farbe und Icon klassifizieren."
+    },
+    "expenses": {
+      "label": "Ausgaben",
+      "singular": "Ausgabe",
+      "description": "Ausgehende Zahlungen, Kategorien und Konten verfolgen."
+    },
+    "recurringExpenses": {
+      "label": "Wiederkehrende Ausgaben",
+      "singular": "wiederkehrende Ausgabe",
+      "description": "Wiederkehrende Belastungen nach Frequenz verwalten."
+    },
+    "incomes": {
+      "label": "Einnahmen",
+      "singular": "Einnahme",
+      "description": "Eingehende Zahlungen und das verknüpfte Konto erfassen."
+    },
+    "recurringIncomes": {
+      "label": "Wiederkehrende Einnahmen",
+      "singular": "wiederkehrende Einnahme",
+      "description": "Wiederkehrende Einnahmen nach Frequenz verwalten."
+    },
+    "bankAccounts": {
+      "label": "Bankkonten",
+      "singular": "Bankkonto",
+      "description": "Konten und deren Währungen auflisten."
+    },
+    "accountTypes": {
+      "label": "Kontotypen",
+      "singular": "Kontotyp",
+      "description": "Kontofamilien definieren."
+    }
+  }
+}

@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRotate } from '@fortawesome/free-solid-svg-icons'
+import { useAppContext } from '../context/AppContext'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? ''
 
@@ -53,7 +56,11 @@ const statRequests = [
 ]
 
 function toDateInput(date) {
-  return date.toISOString().slice(0, 10)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
 }
 
 function getDefaultRange() {
@@ -65,6 +72,32 @@ function getDefaultRange() {
     startDate: toDateInput(start),
     endDate: toDateInput(end),
   }
+}
+
+function isActiveRecurringItem(item) {
+  return item.is_active
+}
+
+function toMonthlyCents(item) {
+  const amountCents = Number(item.amount_cents ?? 0)
+
+  if (item.frequency === 'weekly') {
+    return amountCents * 52 / 12
+  }
+
+  if (item.frequency === 'yearly') {
+    return amountCents / 12
+  }
+
+  return amountCents
+}
+
+function getMonthlyRecurringTotal(items) {
+  return Math.round(
+    items
+      .filter(isActiveRecurringItem)
+      .reduce((total, item) => total + toMonthlyCents(item), 0)
+  )
 }
 
 async function requestStats(endpoint, startDate, endDate) {
@@ -109,13 +142,20 @@ function formatCell(value, type) {
   return value
 }
 
-function StatsPage({ onUnauthorized }) {
+function StatsPage() {
+  const { logout, store } = useAppContext()
   const defaultRange = useMemo(() => getDefaultRange(), [])
   const [startDate, setStartDate] = useState(defaultRange.startDate)
   const [endDate, setEndDate] = useState(defaultRange.endDate)
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const theoreticalMonthlyBudgetCents = useMemo(() => {
+    const recurringIncomeCents = getMonthlyRecurringTotal(store.recurringIncomes ?? [])
+    const recurringExpenseCents = getMonthlyRecurringTotal(store.recurringExpenses ?? [])
+
+    return recurringIncomeCents - recurringExpenseCents
+  }, [store.recurringExpenses, store.recurringIncomes])
 
   const fetchStats = useCallback(async (rangeStart, rangeEnd) => {
     setLoading(true)
@@ -143,7 +183,7 @@ function StatsPage({ onUnauthorized }) {
       })
 
       if (hasUnauthorized) {
-        onUnauthorized()
+        await logout()
         return
       }
 
@@ -156,7 +196,7 @@ function StatsPage({ onUnauthorized }) {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [logout])
 
   function loadStats(event) {
     event.preventDefault()
@@ -186,7 +226,7 @@ function StatsPage({ onUnauthorized }) {
           <input type="date" value={endDate} required onChange={(event) => setEndDate(event.target.value)} />
         </label>
         <button className="primary-button" disabled={loading} type="submit">
-          {loading ? 'Chargement...' : 'Actualiser'}
+          {loading ? 'Chargement...' : <FontAwesomeIcon icon={faRotate} />}
         </button>
       </form>
 
@@ -205,6 +245,11 @@ function StatsPage({ onUnauthorized }) {
           label="Balance"
           tone={(stats?.balance?.balance_cents ?? 0) >= 0 ? 'positive' : 'negative'}
           value={formatMoney(stats?.balance?.balance_cents)}
+        />
+        <StatCard
+          label="Budget mensuel théorique"
+          tone={theoreticalMonthlyBudgetCents >= 0 ? 'positive' : 'negative'}
+          value={formatMoney(theoreticalMonthlyBudgetCents)}
         />
       </section>
 

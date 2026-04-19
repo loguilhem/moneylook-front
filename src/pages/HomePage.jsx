@@ -1,47 +1,42 @@
+import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
-import { homePages } from '../resources'
+import { getHomePages } from '../resources'
 import { pathFromPage } from '../routing'
+import { useAppContext } from '../context/AppContext'
+import { useTranslation } from 'react-i18next'
 
-function HomePage({ onLogout, onNavigate, counts, error, loading }) {
-  function handleNavigation(event, pageKey) {
-    event.preventDefault()
-    onNavigate(pageKey)
-  }
+function HomePage() {
+  const { logout, counts, error, loading, hasLoaded } = useAppContext()
+  const { t } = useTranslation()
+  const homePages = getHomePages(t)
 
   return (
     <main className="home-page">
       <section className="home-heading">
         <img className="home-logo" src={logo} alt="Moneylook" />
-        <p className="eyebrow">Moneylook</p>
-        <h1>Gestion des dépenses</h1>
-        <p>Choisis une page pour consulter, créer, modifier ou supprimer tes données.</p>
       </section>
 
       {error ? <p className="alert">{error}</p> : null}
-      {loading ? (
+      {loading && !hasLoaded ? (
         <p className="inline-loader">
           <span className="loader-spinner" aria-hidden="true" />
-          Chargement des pages
+          {t('home.loadingPages')}
         </p>
       ) : null}
 
-      <section className="card-grid" aria-label="Pages disponibles">
+      <section className="card-grid" aria-label={t('home.availablePages')}>
         {homePages.map((page) => (
-          <a
-            className="home-card"
-            href={pathFromPage(page.key)}
-            key={page.key}
-            onClick={(event) => handleNavigation(event, page.key)}
-          >
+          <Link className="home-card" to={pathFromPage(page.key)} key={page.key}>
             <span>{page.label}</span>
             <strong>{page.countLabel ?? counts[page.key] ?? '-'}</strong>
             <p>{page.description}</p>
-          </a>
+          </Link>
         ))}
-        <button className="home-card logout-card" onClick={onLogout}>
-          <span>Déconnexion</span>
+
+        <button className="home-card logout-card" onClick={logout}>
+          <span>{t('nav.logout')}</span>
           <strong>Off</strong>
-          <p>Fermer la session sur cet appareil.</p>
+          <p>{t('home.logoutDescription')}</p>
         </button>
       </section>
     </main>

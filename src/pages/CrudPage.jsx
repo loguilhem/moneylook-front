@@ -1,7 +1,59 @@
 import { useEffect, useMemo, useState } from 'react'
 import * as XLSX from 'xlsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare, faTrashCan, faSquarePlus, faRotate, faFileImport } from '@fortawesome/free-solid-svg-icons'
 
 const IMPORTABLE_RESOURCE_KEYS = new Set(['recurringIncomes', 'recurringExpenses', 'bankAccounts', 'categories'])
+const DEFAULT_CURRENCY = 'CHF'
+
+function centsToMoneyInput(cents) {
+  if (cents === null || cents === undefined || cents === '') {
+    return ''
+  }
+
+  return (Number(cents) / 100).toFixed(2)
+}
+
+function moneyInputToCents(value) {
+  const normalizedValue = String(value ?? '').trim().replace(',', '.')
+  const amount = Number(normalizedValue)
+
+  return Number.isFinite(amount) ? Math.round(amount * 100) : NaN
+}
+
+function toBoolean(value) {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    return value !== 0
+  }
+
+  const normalizedValue = normalizeHeader(value)
+  return ['1', 'true', 'yes', 'oui', 'active', 'actif'].includes(normalizedValue)
+}
+
+function getCurrency(item, lookups) {
+  if (!item?.bank_account_id) {
+    return DEFAULT_CURRENCY
+  }
+
+  return lookups.bankAccounts?.find((account) => account.id === item.bank_account_id)?.currency ?? DEFAULT_CURRENCY
+}
+
+function formatMoney(cents, currency = DEFAULT_CURRENCY) {
+  const amount = (Number(cents) || 0) / 100
+
+  try {
+    return new Intl.NumberFormat('fr-CH', {
+      style: 'currency',
+      currency,
+    }).format(amount)
+  } catch {
+    return `${amount.toFixed(2)} ${currency}`
+  }
+}
 
 function buildEmptyRecord(resource) {
   return resource.fields.reduce((record, field) => {
@@ -19,6 +71,16 @@ function normalizePayload(resource, form) {
       return payload
     }
 
+    if (field.type === 'money') {
+      payload[field.name] = moneyInputToCents(value)
+      return payload
+    }
+
+    if (field.type === 'boolean') {
+      payload[field.name] = toBoolean(value)
+      return payload
+    }
+
     if (field.type === 'number' || field.type === 'select') {
       payload[field.name] = Number(value)
       return payload
@@ -33,26 +95,46 @@ function itemLabel(item) {
   return item?.label ?? item?.name ?? `#${item?.id}`
 }
 
-function formatValue(fieldName, value, lookups) {
+function formatValue(field, item, lookups) {
+  const value = item[field.name]
+
   if (value === null || value === undefined || value === '') {
     return '-'
+  }
+
+  if (field.type === 'money') {
+    return formatMoney(value, getCurrency(item, lookups))
+  }
+
+  if (field.type === 'boolean') {
+    return value ? field.trueLabel : field.falseLabel
   }
 
   const lookupMap = {
     account_type_id: lookups.accountTypes,
     bank_account_id: lookups.bankAccounts,
     category_id: lookups.categories,
-    recurring_expense_id: lookups.recurringExpenses,
-    recurring_income_id: lookups.recurringIncomes,
   }
 
-  const lookup = lookupMap[fieldName]
+  const lookup = lookupMap[field.name]
   if (lookup) {
-    const item = lookup.find((entry) => entry.id === value)
-    return item ? itemLabel(item) : `#${value}`
+    const lookupItem = lookup.find((entry) => entry.id === value)
+    return lookupItem ? itemLabel(lookupItem) : `#${value}`
   }
 
   return value
+}
+
+function getColumnLabel(resource, column) {
+  if (column === 'id') {
+    return 'ID'
+  }
+
+  if (column === 'icon_preview') {
+    return 'Aperçu'
+  }
+
+  return resource.fields.find((field) => field.name === column)?.label ?? column
 }
 
 function getColumns(resource) {
@@ -146,6 +228,15 @@ function normalizeImportValue(field, rawValue, lookups) {
 
   if (isBlank(rawValue)) {
     return null
+  }
+
+  if (field.type === 'money') {
+    const value = moneyInputToCents(rawValue)
+    return Number.isFinite(value) ? centsToMoneyInput(value) : null
+  }
+
+  if (field.type === 'boolean') {
+    return toBoolean(rawValue)
   }
 
   if (field.type === 'number') {
@@ -271,7 +362,7 @@ function CrudPage({ resource, data, lookups, loading, error, onReload, onSave, o
   function openEditModal(item) {
     const nextForm = buildEmptyRecord(resource)
     resource.fields.forEach((field) => {
-      nextForm[field.name] = item[field.name] ?? ''
+      nextForm[field.name] = field.type === 'money' ? centsToMoneyInput(item[field.name]) : item[field.name] ?? ''
     })
     setForm(nextForm)
     setEditingId(item.id)
@@ -378,15 +469,15 @@ function CrudPage({ resource, data, lookups, loading, error, onReload, onSave, o
         </div>
         <div className="page-actions">
           <button className="secondary-button" disabled={loading} onClick={onReload}>
-            {loading ? <Loader label="Chargement" small /> : 'Actualiser'}
+            {loading ? <Loader label="Chargement" small /> : <FontAwesomeIcon icon={faRotate} />}
           </button>
           {canImport ? (
             <button className="secondary-button" disabled={loading} onClick={() => setIsImportModalOpen(true)}>
-              Importer
+              <FontAwesomeIcon icon={faFileImport} />
             </button>
           ) : null}
           <button className="primary-button page-add-button" disabled={loading} onClick={openCreateModal}>
-            Ajouter
+            <FontAwesomeIcon icon={faSquarePlus} />
           </button>
         </div>
       </header>
@@ -406,7 +497,7 @@ function CrudPage({ resource, data, lookups, loading, error, onReload, onSave, o
             <thead>
               <tr>
                 {columns.map((column) => (
-                  <th key={column}>{column}</th>
+                  <th key={column}>{getColumnLabel(resource, column)}</th>
                 ))}
                 <th>actions</th>
               </tr>
@@ -415,18 +506,18 @@ function CrudPage({ resource, data, lookups, loading, error, onReload, onSave, o
               {data.map((item) => (
                 <tr key={item.id}>
                   {columns.map((column) => (
-                    <td key={column}>{renderCell(column, item, lookups)}</td>
+                    <td key={column}>{renderCell(column, item, resource, lookups)}</td>
                   ))}
                   <td className="actions">
                     <button disabled={loading || deletingId === item.id} onClick={() => openEditModal(item)}>
-                      Éditer
+                      <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
                     <button
                       className="danger-button"
                       disabled={loading || deletingId === item.id}
                       onClick={() => deleteItem(item)}
                     >
-                      {deletingId === item.id ? <Loader label="Suppression" small /> : 'Supprimer'}
+                      {deletingId === item.id ? <Loader label="Suppression" small /> : <FontAwesomeIcon icon={faTrashCan} />}
                     </button>
                   </td>
                 </tr>
@@ -486,7 +577,7 @@ function QuickCreateRow({ resource, columns, quickForm, lookups, quickSaving, fo
       ))}
       <td className="actions">
         <button className="quick-add-button" disabled={quickSaving} form={formId} type="submit">
-          {quickSaving ? <Loader label="Ajout" small /> : '+'}
+          {quickSaving ? <Loader label="Ajout" small /> : <FontAwesomeIcon icon={faSquarePlus} />}
         </button>
       </td>
     </tr>
@@ -499,7 +590,7 @@ function renderQuickCell(column, resource, quickForm, lookups, formId, quickSavi
   }
 
   if (column === 'icon_preview') {
-    return renderCell(column, quickForm, lookups)
+    return renderCell(column, quickForm, resource, lookups)
   }
 
   const field = resource.fields.find((resourceField) => resourceField.name === column)
@@ -597,7 +688,7 @@ function ImportModal({ resource, importing, summary, onClose, onImport }) {
         <div className="modal-header">
           <div>
             <p className="eyebrow">Import</p>
-            <h2>Importer {resource.label}</h2>
+            <h2><FontAwesomeIcon icon={faFileImport} /> {resource.label}</h2>
           </div>
           <button className="ghost-button" disabled={importing} type="button" onClick={onClose}>
             Fermer
@@ -609,6 +700,8 @@ function ImportModal({ resource, importing, summary, onClose, onImport }) {
             Le fichier doit contenir une ligne d'en-tête avec exactement les noms de champs BDD :
             {' '}
             {resource.fields.map((field) => field.name).join(', ')}.
+            {' '}
+            Les montants se saisissent en unités principales, par exemple 12.50, même si la colonne s'appelle amount_cents.
           </p>
           <input
             accept=".csv,.xlsx,.xls,.ods"
@@ -622,7 +715,7 @@ function ImportModal({ resource, importing, summary, onClose, onImport }) {
               Annuler
             </button>
             <button className="primary-button modal-submit-button" disabled={importing || !file} type="submit">
-              {importing ? <Loader label="Import" /> : 'Importer'}
+              {importing ? <Loader label="Import" /> : <FontAwesomeIcon icon={faFileImport} />}
             </button>
           </div>
         </form>
@@ -670,7 +763,7 @@ function ImportSummary({ summary }) {
   )
 }
 
-function renderCell(column, item, lookups) {
+function renderCell(column, item, resource, lookups) {
   if (column === 'icon_preview') {
     return (
       <span
@@ -681,11 +774,25 @@ function renderCell(column, item, lookups) {
     )
   }
 
-  return formatValue(column, item[column], lookups)
+  const field = resource.fields.find((resourceField) => resourceField.name === column)
+  return field ? formatValue(field, item, lookups) : item[column]
 }
 
 function FieldInput({ field, value, lookups, onChange, compact = false, formId, disabled = false }) {
   const className = compact ? 'compact-input' : undefined
+
+  if (field.type === 'boolean') {
+    return (
+      <input
+        className={className}
+        checked={Boolean(value)}
+        disabled={disabled}
+        form={formId}
+        type="checkbox"
+        onChange={(event) => onChange(field.name, event.target.checked)}
+      />
+    )
+  }
 
   if (field.type === 'select' || field.type === 'static-select') {
     const options =
@@ -717,11 +824,14 @@ function FieldInput({ field, value, lookups, onChange, compact = false, formId, 
       className={className}
       disabled={disabled}
       form={formId}
-      type={field.type}
+      type={field.type === 'money' ? 'text' : field.type}
       value={value}
       required={field.required}
       maxLength={field.name === 'currency' ? 3 : undefined}
       min={field.type === 'number' ? 0 : undefined}
+      inputMode={field.type === 'money' ? 'decimal' : undefined}
+      pattern={field.type === 'money' ? '[0-9]+([,.][0-9]{1,2})?' : undefined}
+      placeholder={field.type === 'money' ? '0.00' : undefined}
       onChange={(event) => onChange(field.name, event.target.value)}
     />
   )

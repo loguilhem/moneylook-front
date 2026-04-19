@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "ariaLabel": "Main navigation",
+    "home": "Home",
+    "stats": "Stats",
+    "categories": "Categories",
+    "expenses": "Expenses",
+    "recurringExpenses": "Recurring expenses",
+    "incomes": "Income",
+    "recurringIncomes": "Recurring income",
+    "bankAccounts": "Bank accounts",
+    "accountTypes": "Account types",
+    "language": "Language",
+    "logout": "Logout"
+  },
+  "footer": {
+    "developpedBy": "Developed by"
+  },
+  "session": {
+    "checkingSession": "Checking session"
+  },
+  "common": {
+    "no": "No",
+    "yes": "Yes"
+  },
+  "login": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "logging": "Logging in..."
+  },
+  "home": {
+    "availablePages": "Available pages",
+    "loadingPages": "Loading pages",
+    "logoutDescription": "Close the session on this device."
+  },
+  "resources": {
+    "notFound": "Resource not found.",
+    "frequency": {
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "datePolicy": {
+      "sameDay": "Same day",
+      "lastDayOfMonth": "Last day of month",
+      "firstBusinessDay": "First business day",
+      "lastBusinessDay": "Last business day"
+    },
+    "fields": {
+      "accountType": "Account type",
+      "amount": "Amount",
+      "bankAccount": "Account",
+      "category": "Category",
+      "color": "Color",
+      "currency": "Currency",
+      "date": "Date",
+      "datePolicy": "Date policy",
+      "frequency": "Frequency",
+      "iconHtml": "HTML icon",
+      "isActive": "Active",
+      "label": "Label",
+      "name": "Name"
+    },
+    "stats": {
+      "label": "Stats",
+      "description": "View totals, balance, and breakdowns on one page."
+    },
+    "categories": {
+      "label": "Categories",
+      "singular": "category",
+      "description": "Classify expenses with color and icon."
+    },
+    "expenses": {
+      "label": "Expenses",
+      "singular": "expense",
+      "description": "Track outgoing payments, categories, and accounts."
+    },
+    "recurringExpenses": {
+      "label": "Recurring expenses",
+      "singular": "recurring expense",
+      "description": "Manage recurring charges by frequency."
+    },
+    "incomes": {
+      "label": "Income",
+      "singular": "income",
+      "description": "Record incoming payments and the linked account."
+    },
+    "recurringIncomes": {
+      "label": "Recurring income",
+      "singular": "recurring income",
+      "description": "Manage recurring incoming payments by frequency."
+    },
+    "bankAccounts": {
+      "label": "Bank accounts",
+      "singular": "bank account",
+      "description": "List accounts and their currencies."
+    },
+    "accountTypes": {
+      "label": "Account types",
+      "singular": "account type",
+      "description": "Define account families."
+    }
+  }
+}
