@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 import { useTranslation } from 'react-i18next'
+import logo from '../assets/logo.png'
 
 const REMEMBERED_LOGIN_KEY = 'moneylook-remembered-login'
 
@@ -13,7 +14,10 @@ function getRememberedLogin() {
   }
 
   try {
-    return JSON.parse(rememberedLogin)
+    const parsedLogin = JSON.parse(rememberedLogin)
+    return {
+      email: parsedLogin?.email ?? '',
+    }
   } catch {
     localStorage.removeItem(REMEMBERED_LOGIN_KEY)
     return null
@@ -29,7 +33,7 @@ function LoginPage() {
 
     return {
       email: rememberedLogin?.email ?? '',
-      password: rememberedLogin?.password ?? '',
+      password: '',
     }
   })
   const { t } = useTranslation()
@@ -41,7 +45,7 @@ function LoginPage() {
       await login(form)
 
       if (rememberMe) {
-        localStorage.setItem(REMEMBERED_LOGIN_KEY, JSON.stringify(form))
+        localStorage.setItem(REMEMBERED_LOGIN_KEY, JSON.stringify({ email: form.email }))
       } else {
         localStorage.removeItem(REMEMBERED_LOGIN_KEY)
       }
@@ -54,46 +58,52 @@ function LoginPage() {
 
   return (
     <main className="login-page">
-      <section className="login-panel">
-        <h1>{t('login.login')}</h1>
+      <div className="login-shell">
+        <section className="login-logo-panel" aria-label="Moneylook">
+          <img src={logo} alt="Moneylook" />
+        </section>
 
-        {authError ? <p className="alert">{authError}</p> : null}
+        <section className="login-panel">
+          <h1>{t('login.login')}</h1>
 
-        <form className="form-grid" onSubmit={submit}>
-          <label>
-            <span>{t('login.email')}</span>
-            <input
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-            />
-          </label>
+          {authError ? <p className="alert">{authError}</p> : null}
 
-          <label>
-            <span>{t('login.password')}</span>
-            <input
-              type="password"
-              autoComplete="current-password"
-              value={form.password}
-              onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-            />
-          </label>
+          <form className="form-grid" onSubmit={submit}>
+            <label>
+              <span>{t('login.email')}</span>
+              <input
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+              />
+            </label>
 
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(event) => setRememberMe(event.target.checked)}
-            />
-            <span>{t('login.rememberMe')}</span>
-          </label>
+            <label>
+              <span>{t('login.password')}</span>
+              <input
+                type="password"
+                autoComplete="current-password"
+                value={form.password}
+                onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+              />
+            </label>
 
-          <button className="primary-button" disabled={authLoading} type="submit">
-            {authLoading ? t('login.logging') : t('login.login')}
-          </button>
-        </form>
-      </section>
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(event) => setRememberMe(event.target.checked)}
+              />
+              <span>{t('login.rememberMe')}</span>
+            </label>
+
+            <button className="primary-button" disabled={authLoading} type="submit">
+              {authLoading ? t('login.logging') : t('login.login')}
+            </button>
+          </form>
+        </section>
+      </div>
     </main>
   )
 }

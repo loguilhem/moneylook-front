@@ -11,6 +11,7 @@
     "bankAccounts": "Bankkonten",
     "accountTypes": "Kontotypen",
     "language": "Sprache",
+    "settings": "Einstellungen",
     "logout": "Abmelden"
   },
   "footer": {
@@ -33,6 +34,7 @@
   },
   "resources": {
     "notFound": "Ressource nicht gefunden.",
+    "noData": "Keine Daten",
     "frequency": {
       "weekly": "Wöchentlich",
       "monthly": "Monatlich",
@@ -46,9 +48,11 @@
       "color": "Farbe",
       "currency": "Währung",
       "date": "Datum",
+      "default": "Standard",
       "endDate": "Ende",
       "frequency": "Frequenz",
       "iconHtml": "HTML-Icon",
+      "initialBalance": "Anfangssaldo",
       "label": "Bezeichnung",
       "name": "Name",
       "startDate": "Start"
@@ -91,6 +95,67 @@
       "label": "Kontotypen",
       "singular": "Kontotyp",
       "description": "Kontofamilien definieren."
+    }
+  },
+  "stats": {
+    "title": "Übersicht",
+    "loading": "Statistiken werden geladen",
+    "loadingShort": "Laden...",
+    "filters": "Filter",
+    "details": "Details",
+    "startDate": "Beginn",
+    "endDate": "Ende",
+    "year": "Jahr",
+    "rowsCount": "{{count}} Zeile(n)",
+    "months": [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
+    "global": {
+      "title": "Gesamtsituation",
+      "description": "Basierend auf den ausgewählten Daten."
+    },
+    "currentAccounts": {
+      "title": "Liquidität Girokonten",
+      "description": "Einnahmen, Ausgaben und Saldo nur für Girokonten."
+    },
+    "cards": {
+      "totalIncome": "Gesamteinnahmen",
+      "totalExpense": "Gesamtausgaben",
+      "netBalance": "Nettosaldo",
+      "currentIncome": "Einnahmen Girokonten",
+      "currentExpense": "Ausgaben Girokonten",
+      "currentBalance": "Saldo Girokonten"
+    },
+    "columns": {
+      "month": "Monat",
+      "percentage": "%",
+      "total": "Total"
+    },
+    "expenseDistribution": {
+      "title": "Ausgabenverteilung"
+    },
+    "bankAccounts": {
+      "title": "Nach Bankkonto"
+    },
+    "treasurySavings": {
+      "title": "Liquidität / Ersparnisse"
+    },
+    "annual": {
+      "title": "Jahresansicht"
+    },
+    "monthlyAccountEvolution": {
+      "title": "Monatliche Entwicklung der Bankkonten"
     }
   }
 }

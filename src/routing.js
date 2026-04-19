@@ -19,13 +19,15 @@ export function pageFromPath(pathname) {
     return HOME_PAGE
   }
 
-  if (!cleanPath.startsWith('/app/')) {
-    return HOME_PAGE
+  if (cleanPath === '/stats') {
+    return 'stats'
   }
 
-  const pageKey = decodeURIComponent(cleanPath.slice('/app/'.length))
-  if (pageKey === 'stats' || resourceByKey[pageKey]) {
-    return pageKey
+  if (cleanPath.startsWith('/resource/')) {
+    const resourceRoute = decodeURIComponent(cleanPath.slice('/resource/'.length))
+    const resourceEntry = Object.entries(resourceRoutes).find(([, route]) => route === resourceRoute)
+
+    return resourceEntry?.[0] ?? HOME_PAGE
   }
 
   return HOME_PAGE

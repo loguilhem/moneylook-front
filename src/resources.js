@@ -114,6 +114,7 @@ export const resources = [
         options: frequencyOptions,
       },
       { name: 'bank_account_id', labelKey: 'resources.fields.bankAccount', type: 'select', source: 'bankAccounts', required: true },
+      { name: 'category_id', labelKey: 'resources.fields.category', type: 'select', source: 'categories', optional: true },
     ],
   },
   {
@@ -126,6 +127,8 @@ export const resources = [
     fields: [
       { name: 'label', labelKey: 'resources.fields.label', type: 'text', required: true },
       { name: 'currency', labelKey: 'resources.fields.currency', type: 'text', required: true, defaultValue: 'CHF' },
+      { name: 'initial_balance_cents', labelKey: 'resources.fields.initialBalance', type: 'money', required: true, defaultValue: '0.00' },
+      { name: 'is_default', labelKey: 'resources.fields.default', type: 'boolean', required: true, defaultValue: false },
       { name: 'account_type_id', labelKey: 'resources.fields.accountType', type: 'select', source: 'accountTypes', required: true },
     ],
   },
@@ -180,13 +183,3 @@ export function getHomePages(t) {
     ...getTranslatedResources(t),
   ]
 }
-
-export const homePages = [
-  {
-    key: 'stats',
-    labelKey: 'resources.stats.label',
-    countLabel: '7',
-    descriptionKey: 'resources.stats.description',
-  },
-  ...resources,
-]

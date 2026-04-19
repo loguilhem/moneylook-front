@@ -11,7 +11,8 @@
     "bankAccounts": "Bank accounts",
     "accountTypes": "Account types",
     "language": "Language",
-    "logout": "Logout"
+    "logout": "Logout",
+    "settings": "Settings"
   },
   "footer": {
     "developpedBy": "Developed by"
@@ -35,8 +36,32 @@
     "loadingPages": "Loading pages",
     "logoutDescription": "Close the session on this device."
   },
+  "expenses": {
+    "applyRecurring": {
+      "actions": "Actions",
+      "close": "Close",
+      "empty": "No active recurring expense.",
+      "eyebrow": "Recurring expenses",
+      "save": "Add this expense",
+      "saving": "Adding",
+      "title": "Apply recurring expenses"
+    }
+  },
+  "incomes": {
+    "applyRecurring": {
+      "actions": "Actions",
+      "close": "Close",
+      "empty": "No active recurring income.",
+      "eyebrow": "Recurring income",
+      "noCategory": "No category",
+      "save": "Add this income",
+      "saving": "Adding",
+      "title": "Apply recurring income"
+    }
+  },
   "resources": {
     "notFound": "Resource not found.",
+    "noData": "No data",
     "frequency": {
       "weekly": "Weekly",
       "monthly": "Monthly",
@@ -57,8 +82,10 @@
       "currency": "Currency",
       "date": "Date",
       "datePolicy": "Date policy",
+      "default": "Default",
       "frequency": "Frequency",
       "iconHtml": "HTML icon",
+      "initialBalance": "Initial balance",
       "isActive": "Active",
       "label": "Label",
       "name": "Name"
@@ -101,6 +128,67 @@
       "label": "Account types",
       "singular": "account type",
       "description": "Define account families."
+    }
+  },
+  "stats": {
+    "title": "Overview",
+    "loading": "Loading stats",
+    "loadingShort": "Loading...",
+    "filters": "Filters",
+    "details": "Details",
+    "startDate": "Start",
+    "endDate": "End",
+    "year": "Year",
+    "rowsCount": "{{count}} row(s)",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "global": {
+      "title": "Global situation",
+      "description": "Based on the selected dates."
+    },
+    "currentAccounts": {
+      "title": "Current account cash flow",
+      "description": "Income, expenses, and balance for current accounts only."
+    },
+    "cards": {
+      "totalIncome": "Total income",
+      "totalExpense": "Total expenses",
+      "netBalance": "Net balance",
+      "currentIncome": "Current account income",
+      "currentExpense": "Current account expenses",
+      "currentBalance": "Current account balance"
+    },
+    "columns": {
+      "month": "Month",
+      "percentage": "%",
+      "total": "Total"
+    },
+    "expenseDistribution": {
+      "title": "Expense distribution"
+    },
+    "bankAccounts": {
+      "title": "By bank account"
+    },
+    "treasurySavings": {
+      "title": "Cash / savings"
+    },
+    "annual": {
+      "title": "Annual view"
+    },
+    "monthlyAccountEvolution": {
+      "title": "Monthly bank account evolution"
     }
   }
 }

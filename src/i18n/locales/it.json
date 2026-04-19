@@ -11,6 +11,7 @@
     "bankAccounts": "Conti bancari",
     "accountTypes": "Tipi di conto",
     "language": "Lingua",
+    "settings": "Impostazioni",
     "logout": "Disconnetti"
   },
   "footer": {
@@ -33,6 +34,7 @@
   },
   "resources": {
     "notFound": "Risorsa non trovata.",
+    "noData": "Nessun dato",
     "frequency": {
       "weekly": "Settimanale",
       "monthly": "Mensile",
@@ -46,9 +48,11 @@
       "color": "Colore",
       "currency": "Valuta",
       "date": "Data",
+      "default": "Predefinito",
       "endDate": "Fine",
       "frequency": "Frequenza",
       "iconHtml": "Icona HTML",
+      "initialBalance": "Saldo iniziale",
       "label": "Etichetta",
       "name": "Nome",
       "startDate": "Inizio"
@@ -91,6 +95,67 @@
       "label": "Tipi di conto",
       "singular": "tipo di conto",
       "description": "Definisci le famiglie di conti."
+    }
+  },
+  "stats": {
+    "title": "Panoramica",
+    "loading": "Caricamento statistiche",
+    "loadingShort": "Caricamento...",
+    "filters": "Filtri",
+    "details": "Dettagli",
+    "startDate": "Inizio",
+    "endDate": "Fine",
+    "year": "Anno",
+    "rowsCount": "{{count}} riga/righe",
+    "months": [
+      "Gennaio",
+      "Febbraio",
+      "Marzo",
+      "Aprile",
+      "Maggio",
+      "Giugno",
+      "Luglio",
+      "Agosto",
+      "Settembre",
+      "Ottobre",
+      "Novembre",
+      "Dicembre"
+    ],
+    "global": {
+      "title": "Situazione globale",
+      "description": "In base alle date selezionate."
+    },
+    "currentAccounts": {
+      "title": "Liquidità conti correnti",
+      "description": "Entrate, spese e saldo solo per i conti correnti."
+    },
+    "cards": {
+      "totalIncome": "Entrate totali",
+      "totalExpense": "Spese totali",
+      "netBalance": "Saldo netto",
+      "currentIncome": "Entrate conti correnti",
+      "currentExpense": "Spese conti correnti",
+      "currentBalance": "Saldo conti correnti"
+    },
+    "columns": {
+      "month": "Mese",
+      "percentage": "%",
+      "total": "Totale"
+    },
+    "expenseDistribution": {
+      "title": "Ripartizione delle spese"
+    },
+    "bankAccounts": {
+      "title": "Per conto bancario"
+    },
+    "treasurySavings": {
+      "title": "Liquidità / risparmio"
+    },
+    "annual": {
+      "title": "Vista annuale"
+    },
+    "monthlyAccountEvolution": {
+      "title": "Evoluzione mensile dei conti bancari"
     }
   }
 }

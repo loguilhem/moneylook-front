@@ -11,7 +11,8 @@
     "bankAccounts": "Comptes bancaires",
     "accountTypes": "Types de compte",
     "language": "Langue",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "settings": "Paramètres"
   },
   "footer": {
     "developpedBy": "Développé par"
@@ -35,8 +36,32 @@
     "loadingPages": "Chargement des pages",
     "logoutDescription": "Fermer la session sur cet appareil."
   },
+  "expenses": {
+    "applyRecurring": {
+      "actions": "Actions",
+      "close": "Fermer",
+      "empty": "Aucune dépense récurrente active.",
+      "eyebrow": "Dépenses récurrentes",
+      "save": "Ajouter cette dépense",
+      "saving": "Ajout",
+      "title": "Appliquer les dépenses récurrentes"
+    }
+  },
+  "incomes": {
+    "applyRecurring": {
+      "actions": "Actions",
+      "close": "Fermer",
+      "empty": "Aucun revenu récurrent actif.",
+      "eyebrow": "Revenus récurrents",
+      "noCategory": "Sans catégorie",
+      "save": "Ajouter ce revenu",
+      "saving": "Ajout",
+      "title": "Appliquer les revenus récurrents"
+    }
+  },
   "resources": {
     "notFound": "Ressource introuvable.",
+    "noData": "Aucune données",
     "frequency": {
       "weekly": "Hebdomadaire",
       "monthly": "Mensuelle",
@@ -57,8 +82,10 @@
       "currency": "Devise",
       "date": "Date",
       "datePolicy": "Politique de date",
+      "default": "Défaut",
       "frequency": "Fréquence",
       "iconHtml": "Icône HTML",
+      "initialBalance": "Solde initial",
       "isActive": "Actif",
       "label": "Libellé",
       "name": "Nom"
@@ -101,6 +128,67 @@
       "label": "Types de compte",
       "singular": "type de compte",
       "description": "Définir les familles de comptes."
+    }
+  },
+  "stats": {
+    "title": "Vue d'ensemble",
+    "loading": "Chargement des stats",
+    "loadingShort": "Chargement...",
+    "filters": "Filtres",
+    "details": "Détails",
+    "startDate": "Début",
+    "endDate": "Fin",
+    "year": "Année",
+    "rowsCount": "{{count}} ligne(s)",
+    "months": [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre"
+    ],
+    "global": {
+      "title": "Situation globale",
+      "description": "Selon les dates choisies."
+    },
+    "currentAccounts": {
+      "title": "Trésorerie comptes courants",
+      "description": "Revenus, dépenses et solde uniquement sur les comptes de type courant."
+    },
+    "cards": {
+      "totalIncome": "Total revenu",
+      "totalExpense": "Total dépense",
+      "netBalance": "Solde net",
+      "currentIncome": "Revenus comptes courants",
+      "currentExpense": "Dépenses comptes courants",
+      "currentBalance": "Balance comptes courants"
+    },
+    "columns": {
+      "month": "Mois",
+      "percentage": "%",
+      "total": "Total"
+    },
+    "expenseDistribution": {
+      "title": "Répartition des dépenses"
+    },
+    "bankAccounts": {
+      "title": "Par compte bancaire"
+    },
+    "treasurySavings": {
+      "title": "Trésorerie / épargne"
+    },
+    "annual": {
+      "title": "Vue annuelle"
+    },
+    "monthlyAccountEvolution": {
+      "title": "Évolution mensuelle des comptes bancaires"
     }
   }
 }
