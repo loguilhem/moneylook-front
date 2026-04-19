@@ -274,6 +274,33 @@ p {
   white-space: nowrap;
 }
 
+.settings-menu-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.settings-menu-action:hover {
+  border-color: var(--azure);
+  color: var(--azure-dark);
+  transform: translateY(-1px);
+}
+
 .language-select-label {
   display: inline-flex;
 }
@@ -352,6 +379,121 @@ p {
   border-color: #d65f00;
   background: #ffedd5;
   color: #a74400;
+}
+
+/* ========== Visite guidée ========== */
+
+.guided-tour {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.guided-tour-backdrop,
+.guided-tour-highlight {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 49, 59, 0.58);
+}
+
+.guided-tour-highlight {
+  inset: auto;
+  border: 2px solid var(--azure);
+  border-radius: 8px;
+  background: transparent;
+  box-shadow:
+    0 0 0 9999px rgba(23, 49, 59, 0.58),
+    0 0 0 6px rgba(0, 174, 239, 0.16);
+}
+
+.guided-tour-card {
+  position: fixed;
+  z-index: 101;
+  max-width: calc(100vw - 32px);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+}
+
+.guided-tour-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.guided-tour-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.guided-tour-demo {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-alt);
+}
+
+.guided-tour-demo > span {
+  color: var(--azure);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.guided-tour-demo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.guided-tour-demo-row strong {
+  min-width: 0;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.guided-tour-demo-row em {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 800;
+  text-align: right;
+}
+
+.guided-tour-demo-row em.positive {
+  color: var(--success);
+}
+
+.guided-tour-demo-row em.negative {
+  color: var(--danger);
+}
+
+.guided-tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.guided-tour-actions > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .page-add-button,
@@ -1354,5 +1496,21 @@ input[type="color"].compact-input {
 
   .login-panel {
     padding: 20px;
+  }
+
+  .guided-tour-card {
+    left: 16px !important;
+    right: 16px;
+    width: auto !important;
+  }
+
+  .guided-tour-actions,
+  .guided-tour-actions > div {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .guided-tour-actions button {
+    width: 100%;
   }
 }

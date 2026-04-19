@@ -12,7 +12,8 @@
     "accountTypes": "Tipi di conto",
     "language": "Lingua",
     "settings": "Impostazioni",
-    "logout": "Disconnetti"
+    "logout": "Disconnetti",
+    "startTour": "Tour guidato"
   },
   "footer": {
     "developpedBy": "Sviluppato da"
@@ -31,6 +32,51 @@
     "availablePages": "Pagine disponibili",
     "loadingPages": "Caricamento delle pagine",
     "logoutDescription": "Chiudi la sessione su questo dispositivo."
+  },
+  "tour": {
+    "eyebrow": "Tour {{current}}/{{total}}",
+    "skip": "Salta",
+    "previous": "Precedente",
+    "next": "Avanti",
+    "finish": "Fine",
+    "demoLabel": "Dati fittizi",
+    "steps": {
+      "welcome": {
+        "title": "Benvenuto in Moneylook",
+        "body": "Questo rapido tour presenta le aree principali per seguire budget e liquidità."
+      },
+      "home": {
+        "title": "Home",
+        "body": "La home offre un accesso rapido alle sezioni principali e riepiloga le risorse disponibili."
+      },
+      "stats": {
+        "title": "Statistiche",
+        "body": "Qui trovi la situazione globale, il saldo dei conti correnti, i dettagli e l'evoluzione mensile."
+      },
+      "statsPage": {
+        "body": "La pagina Statistiche riunisce gli indicatori per capire il periodo scelto e seguire la liquidità."
+      },
+      "expenses": {
+        "title": "Spese",
+        "body": "Aggiungi le uscite, classificale per categoria e applica le spese ricorrenti attive."
+      },
+      "incomes": {
+        "title": "Entrate",
+        "body": "Registra le entrate e applica quelle ricorrenti per risparmiare tempo ogni mese."
+      },
+      "settings": {
+        "title": "Impostazioni",
+        "body": "Il menu con l'ingranaggio raggruppa categorie, conti bancari, tipi di conto e modelli ricorrenti."
+      },
+      "language": {
+        "title": "Lingua",
+        "body": "Cambia la lingua dell'interfaccia quando preferisci."
+      },
+      "content": {
+        "title": "Area di lavoro",
+        "body": "Le pagine principali usano la larghezza disponibile per mostrare liste, moduli e dashboard."
+      }
+    }
   },
   "resources": {
     "notFound": "Risorsa non trovata.",

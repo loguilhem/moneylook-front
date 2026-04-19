@@ -12,7 +12,8 @@
     "accountTypes": "Types de compte",
     "language": "Langue",
     "logout": "Déconnexion",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "startTour": "Visite guidée"
   },
   "footer": {
     "developpedBy": "Développé par"
@@ -35,6 +36,51 @@
     "availablePages": "Pages disponibles",
     "loadingPages": "Chargement des pages",
     "logoutDescription": "Fermer la session sur cet appareil."
+  },
+  "tour": {
+    "eyebrow": "Visite {{current}}/{{total}}",
+    "skip": "Passer",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "finish": "Terminer",
+    "demoLabel": "Données fictives",
+    "steps": {
+      "welcome": {
+        "title": "Bienvenue dans Moneylook",
+        "body": "Cette visite rapide présente les zones principales pour suivre ton budget et ta trésorerie."
+      },
+      "home": {
+        "title": "Accueil",
+        "body": "L'accueil donne un accès rapide aux grandes sections et affiche un résumé des ressources disponibles."
+      },
+      "stats": {
+        "title": "Statistiques",
+        "body": "Ici, tu retrouves la situation globale, la balance des comptes courants, les répartitions et l'évolution mensuelle."
+      },
+      "statsPage": {
+        "body": "La page Stats rassemble les indicateurs pour comprendre la période choisie et suivre la trésorerie."
+      },
+      "expenses": {
+        "title": "Dépenses",
+        "body": "Ajoute tes sorties d'argent, classe-les par catégorie et applique les dépenses récurrentes actives."
+      },
+      "incomes": {
+        "title": "Revenus",
+        "body": "Saisis tes entrées d'argent et applique les revenus récurrents pour gagner du temps chaque mois."
+      },
+      "settings": {
+        "title": "Paramètres",
+        "body": "Le menu engrenage regroupe les catégories, comptes bancaires, types de compte et modèles récurrents."
+      },
+      "language": {
+        "title": "Langue",
+        "body": "Change la langue de l'interface selon ta préférence."
+      },
+      "content": {
+        "title": "Espace de travail",
+        "body": "Les pages principales utilisent toute la largeur disponible pour afficher les listes, formulaires et tableaux de bord."
+      }
+    }
   },
   "expenses": {
     "applyRecurring": {

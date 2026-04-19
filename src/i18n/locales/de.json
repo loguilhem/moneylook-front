@@ -12,7 +12,8 @@
     "accountTypes": "Kontotypen",
     "language": "Sprache",
     "settings": "Einstellungen",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "startTour": "Geführte Tour"
   },
   "footer": {
     "developpedBy": "Entwickelt von"
@@ -31,6 +32,51 @@
     "availablePages": "Verfügbare Seiten",
     "loadingPages": "Seiten werden geladen",
     "logoutDescription": "Die Sitzung auf diesem Gerät beenden."
+  },
+  "tour": {
+    "eyebrow": "Tour {{current}}/{{total}}",
+    "skip": "Überspringen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "finish": "Fertig",
+    "demoLabel": "Fiktive Daten",
+    "steps": {
+      "welcome": {
+        "title": "Willkommen bei Moneylook",
+        "body": "Diese kurze Tour zeigt die wichtigsten Bereiche für Budget und Liquidität."
+      },
+      "home": {
+        "title": "Startseite",
+        "body": "Die Startseite bietet schnellen Zugriff auf die wichtigsten Bereiche und zeigt eine Zusammenfassung der Ressourcen."
+      },
+      "stats": {
+        "title": "Statistiken",
+        "body": "Hier siehst du Gesamtlage, Balance der Girokonten, Aufschlüsselungen und monatliche Entwicklung."
+      },
+      "statsPage": {
+        "body": "Die Statistikseite bündelt die Kennzahlen, um den gewählten Zeitraum und die Liquidität zu verstehen."
+      },
+      "expenses": {
+        "title": "Ausgaben",
+        "body": "Erfasse Ausgaben, ordne sie Kategorien zu und wende aktive wiederkehrende Ausgaben an."
+      },
+      "incomes": {
+        "title": "Einnahmen",
+        "body": "Erfasse Einnahmen und wende wiederkehrende Einnahmen an, um jeden Monat Zeit zu sparen."
+      },
+      "settings": {
+        "title": "Einstellungen",
+        "body": "Das Zahnrad-Menü bündelt Kategorien, Bankkonten, Kontotypen und wiederkehrende Vorlagen."
+      },
+      "language": {
+        "title": "Sprache",
+        "body": "Ändere die Sprache der Oberfläche jederzeit nach Bedarf."
+      },
+      "content": {
+        "title": "Arbeitsbereich",
+        "body": "Die Hauptseiten nutzen die verfügbare Breite für Listen, Formulare und Dashboards."
+      }
+    }
   },
   "resources": {
     "notFound": "Ressource nicht gefunden.",

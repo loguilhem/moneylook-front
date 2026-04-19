@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChartLine, faCoins, faGear, faHandHoldingDollar, faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faChartLine, faCoins, faGear, faHandHoldingDollar, faHouse, faRightFromBracket, faRoute } from '@fortawesome/free-solid-svg-icons'
 import logo from '../assets/logo.png'
 import { useAppContext } from '../context/AppContext'
 import { useTranslation } from 'react-i18next'
 
-function Navbar() {
+function Navbar({ onStartTour }) {
   const { logout } = useAppContext()
   const { i18n, t } = useTranslation()
   const location = useLocation()
@@ -30,6 +30,11 @@ function Navbar() {
     }
   }
 
+  const startGuidedTour = () => {
+    closeSettingsMenu()
+    onStartTour()
+  }
+
   useEffect(() => {
     function closeSettingsMenuOnOutsideClick(event) {
       if (!settingsMenuRef.current?.contains(event.target)) {
@@ -43,28 +48,28 @@ function Navbar() {
 
   return (
     <nav className="navbar" aria-label={t('nav.ariaLabel')}>
-      <NavLink to="/" className="brand">
+      <NavLink to="/" className="brand" data-tour="brand">
         <img src={logo} alt="Moneylook" className="brand-logo" />
       </NavLink>
 
       <div className="nav-links">
-        <NavLink to="/" aria-label={t('nav.home')} title={t('nav.home')}>
+        <NavLink to="/" aria-label={t('nav.home')} title={t('nav.home')} data-tour="nav-home">
           <FontAwesomeIcon icon={faHouse} />
         </NavLink>
-        <NavLink to="/stats" aria-label={t('nav.stats')} title={t('nav.stats')}>
+        <NavLink to="/stats" aria-label={t('nav.stats')} title={t('nav.stats')} data-tour="nav-stats">
           <FontAwesomeIcon icon={faChartLine} />
         </NavLink>
-        <NavLink to="/resource/expenses" aria-label={t('nav.expenses')} title={t('nav.expenses')}>
+        <NavLink to="/resource/expenses" aria-label={t('nav.expenses')} title={t('nav.expenses')} data-tour="nav-expenses">
           <FontAwesomeIcon icon={faCoins} />
         </NavLink>
-        <NavLink to="/resource/incomes" aria-label={t('nav.incomes')} title={t('nav.incomes')}>
+        <NavLink to="/resource/incomes" aria-label={t('nav.incomes')} title={t('nav.incomes')} data-tour="nav-incomes">
           <FontAwesomeIcon icon={faHandHoldingDollar} />
         </NavLink>
       </div>
 
       <div className="nav-utilities">
         <details className="settings-menu" ref={settingsMenuRef}>
-          <summary className={isSettingsActive ? 'active' : ''} aria-label={t('nav.settings')} title={t('nav.settings')}>
+          <summary className={isSettingsActive ? 'active' : ''} aria-label={t('nav.settings')} title={t('nav.settings')} data-tour="nav-settings">
             <FontAwesomeIcon icon={faGear} />
           </summary>
           <div className="settings-menu-panel">
@@ -73,9 +78,13 @@ function Navbar() {
             <NavLink to="/resource/recurring-incomes" onClick={closeSettingsMenu}>{t('nav.recurringIncomes')}</NavLink>
             <NavLink to="/resource/bank-accounts" onClick={closeSettingsMenu}>{t('nav.bankAccounts')}</NavLink>
             <NavLink to="/resource/account-types" onClick={closeSettingsMenu}>{t('nav.accountTypes')}</NavLink>
+            <button className="settings-menu-action" type="button" onClick={startGuidedTour}>
+              <FontAwesomeIcon icon={faRoute} />
+              <span>{t('nav.startTour')}</span>
+            </button>
           </div>
         </details>
-        <label className="language-select-label">
+        <label className="language-select-label" data-tour="nav-language">
           <span className="sr-only">{t('nav.language')}</span>
           <select
             className="language-select"
@@ -89,7 +98,7 @@ function Navbar() {
             <option value="de">DE</option>
           </select>
         </label>
-        <button className="logout-button" aria-label={t('nav.logout')} title={t('nav.logout')} onClick={logout}>
+        <button className="logout-button" aria-label={t('nav.logout')} title={t('nav.logout')} onClick={logout} data-tour="nav-logout">
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
       </div>

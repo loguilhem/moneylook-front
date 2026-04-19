@@ -12,7 +12,8 @@
     "accountTypes": "Account types",
     "language": "Language",
     "logout": "Logout",
-    "settings": "Settings"
+    "settings": "Settings",
+    "startTour": "Guided tour"
   },
   "footer": {
     "developpedBy": "Developed by"
@@ -35,6 +36,51 @@
     "availablePages": "Available pages",
     "loadingPages": "Loading pages",
     "logoutDescription": "Close the session on this device."
+  },
+  "tour": {
+    "eyebrow": "Tour {{current}}/{{total}}",
+    "skip": "Skip",
+    "previous": "Previous",
+    "next": "Next",
+    "finish": "Finish",
+    "demoLabel": "Fake data",
+    "steps": {
+      "welcome": {
+        "title": "Welcome to Moneylook",
+        "body": "This quick tour introduces the main areas for tracking your budget and cash flow."
+      },
+      "home": {
+        "title": "Home",
+        "body": "Home gives quick access to the main sections and shows a summary of available resources."
+      },
+      "stats": {
+        "title": "Stats",
+        "body": "Here you can see your global situation, current-account balance, breakdowns, and monthly evolution."
+      },
+      "statsPage": {
+        "body": "The Stats page gathers the indicators you need to understand the selected period and track cash flow."
+      },
+      "expenses": {
+        "title": "Expenses",
+        "body": "Add outgoing payments, classify them by category, and apply active recurring expenses."
+      },
+      "incomes": {
+        "title": "Income",
+        "body": "Record incoming payments and apply recurring income to save time each month."
+      },
+      "settings": {
+        "title": "Settings",
+        "body": "The gear menu groups categories, bank accounts, account types, and recurring templates."
+      },
+      "language": {
+        "title": "Language",
+        "body": "Change the interface language whenever you need."
+      },
+      "content": {
+        "title": "Workspace",
+        "body": "Main pages use the available width to display lists, forms, and dashboards comfortably."
+      }
+    }
   },
   "expenses": {
     "applyRecurring": {
