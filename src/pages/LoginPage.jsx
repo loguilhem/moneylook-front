@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 import { useTranslation } from 'react-i18next'
@@ -28,6 +30,7 @@ function LoginPage() {
   const navigate = useNavigate()
   const { login, authError, authLoading } = useAppContext()
   const [rememberMe, setRememberMe] = useState(() => Boolean(getRememberedLogin()))
+  const [showPassword, setShowPassword] = useState(false)
   const [form, setForm] = useState(() => {
     const rememberedLogin = getRememberedLogin()
 
@@ -81,12 +84,23 @@ function LoginPage() {
 
             <label>
               <span>{t('login.password')}</span>
-              <input
-                type="password"
-                autoComplete="current-password"
-                value={form.password}
-                onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-              />
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  value={form.password}
+                  onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+                />
+                <button
+                  className="password-toggle"
+                  type="button"
+                  aria-label={showPassword ? t('login.hidePassword') : t('login.showPassword')}
+                  title={showPassword ? t('login.hidePassword') : t('login.showPassword')}
+                  onClick={() => setShowPassword((current) => !current)}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
+              </div>
             </label>
 
             <label className="checkbox-label">

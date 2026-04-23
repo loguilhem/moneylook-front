@@ -13,7 +13,9 @@
     "language": "Sprache",
     "settings": "Einstellungen",
     "logout": "Abmelden",
-    "startTour": "Geführte Tour"
+    "startTour": "Geführte Tour",
+    "switchToDark": "Zum Dunkelmodus wechseln",
+    "switchToLight": "Zum Hellmodus wechseln"
   },
   "footer": {
     "developpedBy": "Entwickelt von"
@@ -25,8 +27,15 @@
     "login": "Anmelden",
     "email": "E-Mail",
     "password": "Passwort",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort ausblenden",
     "rememberMe": "Angemeldet bleiben",
     "logging": "Anmeldung läuft..."
+  },
+  "common": {
+    "no": "Nein",
+    "yes": "Ja",
+    "currentMonth": "Aktueller Monat"
   },
   "home": {
     "availablePages": "Verfügbare Seiten",
@@ -201,7 +210,10 @@
       "title": "Jahresansicht"
     },
     "monthlyAccountEvolution": {
-      "title": "Monatliche Entwicklung der Bankkonten"
+      "title": "Monatliche Entwicklung der Bankkonten",
+      "chartTitle": "Diagramm der monatlichen Entwicklung",
+      "chartHint": "Klicke auf Konten, um ihre Linien ein- oder auszublenden.",
+      "chartEmpty": "Wähle mindestens ein Konto aus, um das Diagramm anzuzeigen."
     }
   }
 }

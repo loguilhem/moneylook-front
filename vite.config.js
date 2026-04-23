@@ -14,7 +14,7 @@ export default defineConfig({
       '/incomes': 'http://localhost:8000',
       '/recurring-expenses': 'http://localhost:8000',
       '/recurring-incomes': 'http://localhost:8000',
-      '/stats': 'http://localhost:8000',
+      '/stats/': 'http://localhost:8000',
     },
   },
 })

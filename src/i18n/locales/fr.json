@@ -13,7 +13,9 @@
     "language": "Langue",
     "logout": "Déconnexion",
     "settings": "Paramètres",
-    "startTour": "Visite guidée"
+    "startTour": "Visite guidée",
+    "switchToDark": "Passer en mode sombre",
+    "switchToLight": "Passer en mode clair"
   },
   "footer": {
     "developpedBy": "Développé par"
@@ -23,12 +25,15 @@
   },
   "common": {
     "no": "Non",
-    "yes": "Oui"
+    "yes": "Oui",
+    "currentMonth": "Mois en cours"
   },
   "login": {
     "login": "Connexion",
     "email": "e-mail",
     "password": "Mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
     "rememberMe": "Se souvenir de moi",
     "logging": "Connexion..."
   },
@@ -234,7 +239,10 @@
       "title": "Vue annuelle"
     },
     "monthlyAccountEvolution": {
-      "title": "Évolution mensuelle des comptes bancaires"
+      "title": "Évolution mensuelle des comptes bancaires",
+      "chartTitle": "Courbes d'évolution mensuelle",
+      "chartHint": "Clique sur les comptes pour afficher ou masquer leurs courbes.",
+      "chartEmpty": "Sélectionne au moins un compte pour afficher le graphique."
     }
   }
 }

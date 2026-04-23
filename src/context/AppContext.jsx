@@ -1,9 +1,49 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { resources } from '../resources'
+import lightThemeHref from '../App.css?url'
+import darkThemeHref from '../App.dark.css?url'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? ''
+const THEME_STORAGE_KEY = 'moneylook-theme'
+const THEME_LINK_ID = 'moneylook-theme-stylesheet'
+const THEME_STYLESHEETS = {
+  dark: darkThemeHref,
+  light: lightThemeHref,
+}
 
 const AppContext = createContext(null)
+
+function getStoredTheme() {
+  if (typeof window === 'undefined') {
+    return 'light'
+  }
+
+  const storedTheme = window.sessionStorage.getItem(THEME_STORAGE_KEY)
+
+  return storedTheme === 'dark' ? 'dark' : 'light'
+}
+
+function applyTheme(theme) {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  document.documentElement.dataset.theme = theme
+  document.documentElement.style.colorScheme = theme
+
+  let themeLink = document.getElementById(THEME_LINK_ID)
+
+  if (!themeLink) {
+    themeLink = document.createElement('link')
+    themeLink.id = THEME_LINK_ID
+    themeLink.rel = 'stylesheet'
+    document.head.appendChild(themeLink)
+  }
+
+  themeLink.href = THEME_STYLESHEETS[theme]
+}
+
+applyTheme(getStoredTheme())
 
 async function request(endpoint, options = {}) {
   const headers = {
@@ -39,6 +79,7 @@ export function AppProvider({ children }) {
   const [authChecked, setAuthChecked] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
   const [authError, setAuthError] = useState('')
+  const [theme, setTheme] = useState(getStoredTheme)
 
   const [store, setStore] = useState(() =>
     Object.fromEntries(resources.map((resource) => [resource.key, []]))
@@ -46,6 +87,10 @@ export function AppProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [hasLoaded, setHasLoaded] = useState(false)
   const [error, setError] = useState('')
+
+  const toggleTheme = useCallback(() => {
+    setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))
+  }, [])
 
   const resetStore = useCallback(() => {
     setStore(Object.fromEntries(resources.map((resource) => [resource.key, []])))
@@ -106,6 +151,11 @@ export function AppProvider({ children }) {
       loadAll()
     }
   }, [authUser, loadAll])
+
+  useEffect(() => {
+    window.sessionStorage.setItem(THEME_STORAGE_KEY, theme)
+    applyTheme(theme)
+  }, [theme])
 
   async function login(payload) {
     setAuthLoading(true)
@@ -181,6 +231,7 @@ export function AppProvider({ children }) {
     authChecked,
     authLoading,
     authError,
+    theme,
     loading,
     hasLoaded,
     error,
@@ -188,6 +239,7 @@ export function AppProvider({ children }) {
     counts,
     login,
     logout,
+    toggleTheme,
     loadAll,
     saveResource,
     deleteResource,

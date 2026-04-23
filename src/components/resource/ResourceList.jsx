@@ -5,6 +5,7 @@ import FieldInput from './FieldInput'
 import { Loader, LoadingOverlay } from './Loader'
 import { formatResourceValue, getColumnLabel, itemLabel, normalizeHeader } from './resourceUtils'
 import CategoryLabel from './CategoryLabel'
+import MultiSearchableSelect from './MultiSearchableSelect'
 
 const PAGE_SIZE_OPTIONS = [500, 100, 50]
 
@@ -126,19 +127,80 @@ function QuickCreateRow({ resource, columns, quickForm, lookups, quickSaving, fo
   )
 }
 
-function ColumnFilterRow({ columns, filters, resource, onChange }) {
+function buildFilterOptions(column, lookups) {
+  if (column === 'category_id') {
+    return (lookups.categories ?? []).map((category) => ({
+      item: category,
+      label: category.name,
+      searchLabel: category.name,
+      value: category.id,
+    }))
+  }
+
+  if (column === 'bank_account_id') {
+    return (lookups.bankAccounts ?? []).map((account) => ({
+      label: itemLabel(account),
+      searchLabel: itemLabel(account),
+      value: account.id,
+    }))
+  }
+
+  return []
+}
+
+function renderFilterInput(column, filters, resource, lookups, onChange) {
+  if (column === 'category_id') {
+    return (
+      <MultiSearchableSelect
+        options={buildFilterOptions(column, lookups)}
+        placeholder={getColumnLabel(resource, column)}
+        values={filters[column] ?? []}
+        renderOption={(option) => <CategoryLabel category={option.item} />}
+        renderValue={(selectedOptions) =>
+          selectedOptions.length === 0 ? (
+            <span className="searchable-select-placeholder">{getColumnLabel(resource, column)}</span>
+          ) : selectedOptions.length <= 2 ? (
+            <span className="multi-select-value-list">
+              {selectedOptions.map((option) => (
+                <CategoryLabel key={option.value} category={option.item} />
+              ))}
+            </span>
+          ) : (
+            `${selectedOptions.length} ${getColumnLabel(resource, column)}`
+          )
+        }
+        onChange={(value) => onChange(column, value)}
+      />
+    )
+  }
+
+  if (column === 'bank_account_id') {
+    return (
+      <MultiSearchableSelect
+        options={buildFilterOptions(column, lookups)}
+        placeholder={getColumnLabel(resource, column)}
+        values={filters[column] ?? []}
+        onChange={(value) => onChange(column, value)}
+      />
+    )
+  }
+
+  return (
+    <input
+      className="compact-input column-filter-input"
+      type="search"
+      value={filters[column] ?? ''}
+      placeholder={getColumnLabel(resource, column)}
+      onChange={(event) => onChange(column, event.target.value)}
+    />
+  )
+}
+
+function ColumnFilterRow({ columns, filters, lookups, resource, onChange }) {
   return (
     <tr className="column-filter-row">
       {columns.map((column) => (
-        <td key={column}>
-          <input
-            className="compact-input column-filter-input"
-            type="search"
-            value={filters[column] ?? ''}
-            placeholder={getColumnLabel(resource, column)}
-            onChange={(event) => onChange(column, event.target.value)}
-          />
-        </td>
+        <td key={column}>{renderFilterInput(column, filters, resource, lookups, onChange)}</td>
       ))}
       <td />
     </tr>
@@ -166,13 +228,21 @@ function ResourceList({
   const [page, setPage] = useState(1)
   const displayedData = useMemo(() => {
     const activeFilters = Object.entries(filters)
-      .map(([column, value]) => [column, normalizeHeader(value)])
-      .filter(([, value]) => value)
+      .map(([column, value]) =>
+        Array.isArray(value)
+          ? [column, value.map((entry) => String(entry)).filter(Boolean)]
+          : [column, normalizeHeader(value)],
+      )
+      .filter(([, value]) => (Array.isArray(value) ? value.length > 0 : value))
     const filteredData = activeFilters.length
       ? data.filter((item) =>
-          activeFilters.every(([column, value]) =>
-            normalizeHeader(getCellSearchValue(column, item, resource, lookups)).includes(value),
-          ),
+          activeFilters.every(([column, value]) => {
+            if (Array.isArray(value)) {
+              return value.includes(String(item[column] ?? ''))
+            }
+
+            return normalizeHeader(getCellSearchValue(column, item, resource, lookups)).includes(value)
+          }),
         )
       : data
 
@@ -291,7 +361,7 @@ function ResourceList({
               ))}
               <th>actions</th>
             </tr>
-            <ColumnFilterRow columns={columns} filters={filters} resource={resource} onChange={updateFilter} />
+            <ColumnFilterRow columns={columns} filters={filters} lookups={lookups} resource={resource} onChange={updateFilter} />
           </thead>
           <tbody>
             {paginatedData.map((item) => (

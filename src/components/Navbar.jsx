@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChartLine, faCoins, faGear, faHandHoldingDollar, faHouse, faRightFromBracket, faRoute } from '@fortawesome/free-solid-svg-icons'
+import { faChartLine, faCoins, faGear, faHandHoldingDollar, faHouse, faMoon, faRightFromBracket, faRoute, faSun } from '@fortawesome/free-solid-svg-icons'
 import logo from '../assets/logo.png'
 import { useAppContext } from '../context/AppContext'
 import { useTranslation } from 'react-i18next'
 
 function Navbar({ onStartTour }) {
-  const { logout } = useAppContext()
+  const { logout, theme, toggleTheme } = useAppContext()
   const { i18n, t } = useTranslation()
   const location = useLocation()
   const settingsMenuRef = useRef(null)
@@ -33,6 +33,11 @@ function Navbar({ onStartTour }) {
   const startGuidedTour = () => {
     closeSettingsMenu()
     onStartTour()
+  }
+
+  const handleThemeToggle = () => {
+    toggleTheme()
+    closeSettingsMenu()
   }
 
   useEffect(() => {
@@ -78,6 +83,10 @@ function Navbar({ onStartTour }) {
             <NavLink to="/resource/recurring-incomes" onClick={closeSettingsMenu}>{t('nav.recurringIncomes')}</NavLink>
             <NavLink to="/resource/bank-accounts" onClick={closeSettingsMenu}>{t('nav.bankAccounts')}</NavLink>
             <NavLink to="/resource/account-types" onClick={closeSettingsMenu}>{t('nav.accountTypes')}</NavLink>
+            <button className="settings-menu-action" type="button" onClick={handleThemeToggle}>
+              <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
+              <span>{theme === 'light' ? t('nav.switchToDark') : t('nav.switchToLight')}</span>
+            </button>
             <button className="settings-menu-action" type="button" onClick={startGuidedTour}>
               <FontAwesomeIcon icon={faRoute} />
               <span>{t('nav.startTour')}</span>

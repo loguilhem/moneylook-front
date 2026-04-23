@@ -13,7 +13,9 @@
     "language": "Language",
     "logout": "Logout",
     "settings": "Settings",
-    "startTour": "Guided tour"
+    "startTour": "Guided tour",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
   },
   "footer": {
     "developpedBy": "Developed by"
@@ -23,12 +25,15 @@
   },
   "common": {
     "no": "No",
-    "yes": "Yes"
+    "yes": "Yes",
+    "currentMonth": "Current month"
   },
   "login": {
     "login": "Login",
     "email": "Email",
     "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "rememberMe": "Remember me",
     "logging": "Logging in..."
   },
@@ -234,7 +239,10 @@
       "title": "Annual view"
     },
     "monthlyAccountEvolution": {
-      "title": "Monthly bank account evolution"
+      "title": "Monthly bank account evolution",
+      "chartTitle": "Monthly evolution chart",
+      "chartHint": "Click accounts to show or hide their lines.",
+      "chartEmpty": "Select at least one account to display the chart."
     }
   }
 }
