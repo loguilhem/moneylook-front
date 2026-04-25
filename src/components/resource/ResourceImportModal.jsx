@@ -69,7 +69,7 @@ function ResourceImportModal({ resource, importing, summary, onClose, onImport }
             Les montants se saisissent en unités principales, par exemple 12.50, même si la colonne s'appelle amount_cents.
           </p>
           <input
-            accept=".csv,.xlsx,.xls,.ods"
+            accept=".csv,.xlsx"
             disabled={importing}
             required
             type="file"

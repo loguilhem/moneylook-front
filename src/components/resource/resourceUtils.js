@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx'
+import ExcelJS from 'exceljs/dist/exceljs.min.js'
 
 const DEFAULT_CURRENCY = 'CHF'
 
@@ -157,11 +157,12 @@ function formatExcelDate(value) {
   }
 
   if (typeof value === 'number') {
-    const parsed = XLSX.SSF.parse_date_code(value)
-    if (!parsed) {
+    const excelEpoch = Date.UTC(1899, 11, 30)
+    const parsedDate = new Date(excelEpoch + Math.round(value * 86400000))
+    if (Number.isNaN(parsedDate.getTime())) {
       return null
     }
-    return `${parsed.y}-${String(parsed.m).padStart(2, '0')}-${String(parsed.d).padStart(2, '0')}`
+    return parsedDate.toISOString().slice(0, 10)
   }
 
   const text = String(value).trim()
@@ -175,6 +176,157 @@ function formatExcelDate(value) {
   }
 
   return date.toISOString().slice(0, 10)
+}
+
+function normalizeWorksheetCellValue(value) {
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  if (value instanceof Date || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    return value
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(normalizeWorksheetCellValue).join(', ')
+  }
+
+  if (typeof value === 'object') {
+    if ('result' in value) {
+      return normalizeWorksheetCellValue(value.result)
+    }
+
+    if ('text' in value && typeof value.text === 'string') {
+      return value.text
+    }
+
+    if ('hyperlink' in value && typeof value.hyperlink === 'string') {
+      return value.hyperlink
+    }
+
+    if ('richText' in value && Array.isArray(value.richText)) {
+      return value.richText.map((part) => part.text ?? '').join('')
+    }
+
+    if ('error' in value) {
+      return ''
+    }
+  }
+
+  return String(value)
+}
+
+function worksheetToRows(worksheet) {
+  if (!worksheet || worksheet.rowCount === 0) {
+    return []
+  }
+
+  const headerRow = worksheet.getRow(1)
+  const columnCount = Math.max(headerRow.cellCount, headerRow.actualCellCount)
+  const headers = Array.from({ length: columnCount }, (_, index) =>
+    String(normalizeWorksheetCellValue(headerRow.getCell(index + 1).value)).trim(),
+  )
+
+  const rows = []
+
+  worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) {
+      return
+    }
+
+    const record = headers.reduce((accumulator, header, index) => {
+      if (!header) {
+        return accumulator
+      }
+
+      accumulator[header] = normalizeWorksheetCellValue(row.getCell(index + 1).value)
+      return accumulator
+    }, {})
+
+    if (Object.values(record).some((value) => !isBlank(value))) {
+      rows.push(record)
+    }
+  })
+
+  return rows
+}
+
+function detectCsvDelimiter(line) {
+  const candidates = [',', ';', '\t']
+  return candidates.reduce(
+    (best, delimiter) => {
+      const count = line.split(delimiter).length
+      return count > best.count ? { count, delimiter } : best
+    },
+    { count: 0, delimiter: ',' },
+  ).delimiter
+}
+
+function parseCsv(text) {
+  const firstNonEmptyLine = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .find(Boolean)
+
+  if (!firstNonEmptyLine) {
+    return []
+  }
+
+  const delimiter = detectCsvDelimiter(firstNonEmptyLine)
+  const rows = []
+  let currentRow = []
+  let currentCell = ''
+  let insideQuotes = false
+
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index]
+    const nextCharacter = text[index + 1]
+
+    if (character === '"') {
+      if (insideQuotes && nextCharacter === '"') {
+        currentCell += '"'
+        index += 1
+      } else {
+        insideQuotes = !insideQuotes
+      }
+      continue
+    }
+
+    if (!insideQuotes && character === delimiter) {
+      currentRow.push(currentCell)
+      currentCell = ''
+      continue
+    }
+
+    if (!insideQuotes && (character === '\n' || character === '\r')) {
+      if (character === '\r' && nextCharacter === '\n') {
+        index += 1
+      }
+      currentRow.push(currentCell)
+      rows.push(currentRow)
+      currentRow = []
+      currentCell = ''
+      continue
+    }
+
+    currentCell += character
+  }
+
+  currentRow.push(currentCell)
+  rows.push(currentRow)
+
+  const [headers = [], ...dataRows] = rows.filter((row) => row.some((cell) => String(cell).trim() !== ''))
+  return dataRows
+    .map((row) =>
+      headers.reduce((record, header, index) => {
+        const normalizedHeader = String(header ?? '').trim()
+        if (normalizedHeader) {
+          record[normalizedHeader] = row[index] ?? ''
+        }
+        return record
+      }, {}),
+    )
+    .filter((row) => Object.values(row).some((value) => !isBlank(value)))
 }
 
 function getRowValue(row, field) {
@@ -312,14 +464,20 @@ export function validateImportRow(row, rowNumber, resource, lookups, existingVal
 }
 
 export async function readImportFile(file) {
-  const buffer = await file.arrayBuffer()
-  const workbook = XLSX.read(buffer, { cellDates: true })
-  const firstSheetName = workbook.SheetNames[0]
-  if (!firstSheetName) {
-    return []
+  const filename = file.name.toLowerCase()
+
+  if (filename.endsWith('.csv')) {
+    const text = await file.text()
+    return parseCsv(text)
   }
 
-  return XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], {
-    defval: '',
-  })
+  if (!filename.endsWith('.xlsx')) {
+    throw new Error('Formats supportes : .xlsx, .csv')
+  }
+
+  const buffer = await file.arrayBuffer()
+  const workbook = new ExcelJS.Workbook()
+  await workbook.xlsx.load(buffer)
+
+  return worksheetToRows(workbook.worksheets[0])
 }
