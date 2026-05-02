@@ -13,6 +13,7 @@
     "language": "Lingua",
     "settings": "Impostazioni",
     "logout": "Disconnetti",
+    "closeMenu": "Chiudi menu",
     "startTour": "Tour guidato",
     "switchToDark": "Passa alla modalita scura",
     "switchToLight": "Passa alla modalita chiara"
@@ -24,6 +25,7 @@
     "checkingSession": "Verifica della sessione"
   },
   "common": {
+    "close": "Chiudi",
     "no": "No",
     "yes": "Si",
     "currentMonth": "Mese corrente"

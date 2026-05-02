@@ -18,21 +18,22 @@ function getIconClassName(iconHtml) {
     : ''
 }
 
-function CategoryLabel({ category, fallback = '-' }) {
+function CategoryLabel({ category, fallback = '-', iconOnly = false }) {
   if (!category) {
     return fallback
   }
 
   const iconClassName = getIconClassName(category.icon_html)
+  const label = itemLabel(category)
 
   return (
-    <span className="category-label" style={{ color: category.color }}>
+    <span className={`category-label ${iconOnly ? 'is-icon-only' : ''}`} style={{ color: category.color }} title={iconOnly ? label : undefined}>
       {iconClassName ? (
         <span className="category-label-icon" aria-hidden="true">
           <i className={iconClassName} />
         </span>
       ) : null}
-      <span>{itemLabel(category)}</span>
+      {iconOnly ? <span className="sr-only">{label}</span> : <span>{label}</span>}
     </span>
   )
 }

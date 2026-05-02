@@ -9,11 +9,11 @@ function ResourcePageHeader({ canImport, extraActions = null, loading, resource,
         <h1>{resource.label}</h1>
       </div>
       <div className="page-actions">
-        <button className="secondary-button" disabled={loading} onClick={onReload}>
+        <button className="secondary-button page-reload-button" disabled={loading} onClick={onReload}>
           {loading ? <Loader label="Chargement" small /> : <FontAwesomeIcon icon={faRotate} />}
         </button>
         {canImport ? (
-          <button className="secondary-button" disabled={loading} onClick={onImport}>
+          <button className="secondary-button page-import-button" disabled={loading} onClick={onImport}>
             <FontAwesomeIcon icon={faFileImport} />
           </button>
         ) : null}

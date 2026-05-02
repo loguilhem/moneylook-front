@@ -13,6 +13,7 @@
     "language": "Sprache",
     "settings": "Einstellungen",
     "logout": "Abmelden",
+    "closeMenu": "Menu schliessen",
     "startTour": "Geführte Tour",
     "switchToDark": "Zum Dunkelmodus wechseln",
     "switchToLight": "Zum Hellmodus wechseln"
@@ -33,6 +34,7 @@
     "logging": "Anmeldung läuft..."
   },
   "common": {
+    "close": "Schliessen",
     "no": "Nein",
     "yes": "Ja",
     "currentMonth": "Aktueller Monat"

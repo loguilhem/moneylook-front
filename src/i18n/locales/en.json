@@ -13,6 +13,7 @@
     "language": "Language",
     "logout": "Logout",
     "settings": "Settings",
+    "closeMenu": "Close menu",
     "startTour": "Guided tour",
     "switchToDark": "Switch to dark mode",
     "switchToLight": "Switch to light mode"
@@ -24,6 +25,7 @@
     "checkingSession": "Checking session"
   },
   "common": {
+    "close": "Close",
     "no": "No",
     "yes": "Yes",
     "currentMonth": "Current month"

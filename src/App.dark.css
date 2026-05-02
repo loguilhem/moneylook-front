@@ -170,11 +170,27 @@ p {
   min-width: 0;
 }
 
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
 .nav-utilities {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-left: auto;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-nav-action {
+  display: none;
 }
 
 .settings-menu {
@@ -242,6 +258,8 @@ p {
 /* ========== Boutons / liens actions ========== */
 
 .nav-links a,
+.mobile-menu-toggle,
+.mobile-nav-action,
 .settings-menu summary,
 .settings-menu-panel a,
 .logout-button,
@@ -334,6 +352,8 @@ p {
 }
 
 .nav-links a:hover,
+.mobile-menu-toggle:hover,
+.mobile-nav-action:hover,
 .settings-menu summary:hover,
 .settings-menu-panel a:hover,
 .logout-button:hover,
@@ -620,6 +640,14 @@ button:disabled {
   box-shadow: var(--shadow-sm);
 }
 
+.date-range-filter-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .date-range-filter-fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(170px, 220px));
@@ -744,6 +772,49 @@ button:disabled {
   padding-bottom: 14px;
 }
 
+.transaction-page {
+  padding-top: 10px;
+}
+
+.transaction-page .page-header {
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.transaction-page .page-header h1 {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.transaction-page .page-actions button {
+  min-height: 34px;
+  padding: 0.45rem 0.7rem;
+}
+
+.is-transaction-list .table-title {
+  min-height: 0;
+  padding: 3px 8px 0;
+}
+
+.is-transaction-list .list-toolbar {
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
+}
+
+.is-transaction-list .table-title span {
+  font-size: 0.68rem;
+}
+
+.is-transaction-list .page-size-label select,
+.is-transaction-list .pagination-controls button {
+  min-height: 28px;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .page-size-label {
   display: flex;
   align-items: center;
@@ -850,6 +921,14 @@ tbody tr:nth-child(even) {
   padding: 28px;
   text-align: center;
   color: var(--muted);
+}
+
+.transaction-mobile-list {
+  display: none;
+}
+
+.transaction-mobile-controls {
+  display: none;
 }
 
 /* ========== Formulaires ========== */
@@ -1214,6 +1293,14 @@ input[type="color"].compact-input {
   width: min(1240px, calc(100vw - 50px));
 }
 
+.date-filter-modal {
+  width: min(440px, calc(100vw - 50px));
+}
+
+.date-filter-modal .date-range-filter-fields {
+  grid-template-columns: 1fr;
+}
+
 .modal-header {
   display: flex;
   align-items: flex-start;
@@ -1564,18 +1651,49 @@ input[type="color"].compact-input {
 
 @media (max-width: 900px) {
   .navbar {
-    align-items: flex-start;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 72px;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    color: var(--azure);
+  }
+
+  .nav-menu {
+    display: none;
+    width: 100%;
     flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0 0 8px;
+  }
+
+  .nav-menu.is-open {
+    display: flex;
   }
 
   .nav-links {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .desktop-nav-link {
+    display: none !important;
+  }
+
+  .mobile-nav-action {
+    display: inline-flex;
     width: 100%;
   }
 
   .nav-utilities {
-    width: 100%;
-    justify-content: flex-end;
-    margin-left: 0;
+    display: none;
   }
 
   .work-area {
@@ -1619,6 +1737,23 @@ input[type="color"].compact-input {
   .modal-cancel-button {
     width: 100%;
   }
+
+  .transaction-page .page-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .transaction-page .page-import-button {
+    display: none;
+  }
+
+  .transaction-page .page-actions button,
+  .transaction-page .page-add-button {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1642,6 +1777,203 @@ input[type="color"].compact-input {
 
   .footer {
     flex-direction: column;
+    text-align: center;
+  }
+
+  .is-transaction-list .table-wrap {
+    overflow: visible;
+  }
+
+  .is-transaction-list .table-title {
+    display: none;
+  }
+
+  .transaction-mobile-controls {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+  }
+
+  .transaction-mobile-controls .secondary-button {
+    gap: 7px;
+    min-height: 38px;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .transaction-mobile-controls .secondary-button.is-active {
+    border-color: var(--azure);
+    color: var(--azure-dark);
+    box-shadow: 0 0 0 3px rgba(0, 174, 239, 0.12);
+  }
+
+  .transaction-mobile-controls .searchable-select {
+    min-width: 0;
+  }
+
+  .transaction-category-filter {
+    position: relative;
+    min-width: 0;
+  }
+
+  .transaction-category-filter-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 38px;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .transaction-category-filter-value {
+    display: flex;
+    min-width: 0;
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  .transaction-category-filter-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 70;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(54px, 1fr));
+    gap: 6px;
+    width: min(180px, 62vw);
+    max-height: 260px;
+    overflow: auto;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .transaction-category-filter-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface-alt);
+    cursor: pointer;
+  }
+
+  .transaction-category-filter-option.is-selected {
+    border-color: var(--turquoise);
+    background: rgba(17, 182, 154, 0.16);
+    box-shadow: 0 0 0 3px rgba(17, 182, 154, 0.18);
+  }
+
+  .is-transaction-list table {
+    display: none;
+  }
+
+  .transaction-mobile-list {
+    display: grid;
+  }
+
+  .transaction-mobile-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    gap: 14px;
+    align-items: stretch;
+    width: 100%;
+    padding: 12px 14px;
+    border-top: 1px solid var(--line);
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+    background: var(--surface);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .transaction-mobile-row:nth-child(even) {
+    background: var(--surface-alt);
+  }
+
+  .transaction-mobile-row:disabled {
+    cursor: wait;
+  }
+
+  .transaction-mobile-main {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  .transaction-mobile-date {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .transaction-mobile-detail {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 9px;
+    align-items: end;
+  }
+
+  .transaction-mobile-category {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    align-self: start;
+  }
+
+  .category-label.is-icon-only {
+    gap: 0;
+  }
+
+  .category-label.is-icon-only .category-label-icon {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+  }
+
+  .transaction-mobile-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .transaction-mobile-amount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-self: stretch;
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .transaction-mobile-empty {
+    padding: 28px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
     text-align: center;
   }
 

@@ -33,6 +33,7 @@ function ExpensesPage() {
   const crud = useResourceCrud('expenses')
   const { t } = useTranslation()
   const [isApplyRecurringOpen, setIsApplyRecurringOpen] = useState(false)
+  const [isDateFilterOpen, setIsDateFilterOpen] = useState(false)
   const [savingRecurringIds, setSavingRecurringIds] = useState([])
   const [dateFrom, setDateFrom] = useState(() => getCurrentMonthRange().dateFrom)
   const [dateTo, setDateTo] = useState(() => getCurrentMonthRange().dateTo)
@@ -64,7 +65,7 @@ function ExpensesPage() {
   }
 
   return (
-    <main className="page-shell">
+    <main className="page-shell transaction-page">
       <ResourcePageHeader
         canImport={crud.canImport}
         extraActions={
@@ -90,9 +91,13 @@ function ExpensesPage() {
       <DateRangeFilter
         dateFrom={dateFrom}
         dateTo={dateTo}
+        isOpen={isDateFilterOpen}
+        modal
         onDateFromChange={setDateFrom}
         onDateToChange={setDateTo}
+        onClose={() => setIsDateFilterOpen(false)}
         onCurrentMonth={setCurrentMonthFilter}
+        onOpen={() => setIsDateFilterOpen(true)}
       />
 
       <ResourceList

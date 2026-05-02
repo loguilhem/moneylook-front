@@ -207,6 +207,114 @@ function ColumnFilterRow({ columns, filters, lookups, resource, onChange }) {
   )
 }
 
+function TransactionMobileControls({ categoryFilter, lookups, resource, sort, onCategoryChange, onDateSort }) {
+  const isDateSortActive = sort.column === 'date'
+
+  return (
+    <div className="transaction-mobile-controls">
+      <button className={`secondary-button ${isDateSortActive ? 'is-active' : ''}`} type="button" onClick={onDateSort}>
+        <FontAwesomeIcon icon={isDateSortActive ? getSortIconForDirection(sort.direction) : faSort} />
+        <span>Date</span>
+      </button>
+      <TransactionMobileCategoryFilter
+        options={buildFilterOptions('category_id', lookups)}
+        placeholder={getColumnLabel(resource, 'category_id')}
+        values={categoryFilter ?? []}
+        onChange={onCategoryChange}
+      />
+    </div>
+  )
+}
+
+function TransactionMobileCategoryFilter({ options, placeholder, values, onChange }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const normalizedValues = values.map((value) => String(value))
+  const selectedOptions = options.filter((option) => normalizedValues.includes(String(option.value)))
+
+  function toggleValue(nextValue) {
+    const normalizedValue = String(nextValue)
+    const nextValues = normalizedValues.includes(normalizedValue)
+      ? normalizedValues.filter((value) => value !== normalizedValue)
+      : [...normalizedValues, normalizedValue]
+
+    onChange(nextValues)
+    setIsOpen(false)
+  }
+
+  function closeWhenLeaving(event) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setIsOpen(false)
+    }
+  }
+
+  return (
+    <div className="transaction-category-filter" onBlur={closeWhenLeaving}>
+      <button className="transaction-category-filter-trigger" type="button" onClick={() => setIsOpen((current) => !current)}>
+        {selectedOptions.length === 0 ? (
+          <span className="searchable-select-placeholder">{placeholder}</span>
+        ) : (
+          <span className="transaction-category-filter-value">
+            {selectedOptions.map((option) => (
+              <CategoryLabel key={option.value} category={option.item} iconOnly />
+            ))}
+          </span>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div className="transaction-category-filter-menu">
+          {options.map((option) => {
+            const isSelected = normalizedValues.includes(String(option.value))
+
+            return (
+              <button
+                className={`transaction-category-filter-option ${isSelected ? 'is-selected' : ''}`}
+                key={option.value}
+                type="button"
+                aria-label={option.label}
+                aria-pressed={isSelected}
+                onClick={() => toggleValue(option.value)}
+              >
+                <CategoryLabel category={option.item} iconOnly />
+              </button>
+            )
+          })}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+function getSortIconForDirection(direction) {
+  return direction === 'asc' ? faSortUp : faSortDown
+}
+
+function TransactionMobileList({ data, loading, lookups, resource, onEdit }) {
+  return (
+    <div className="transaction-mobile-list">
+      {data.map((item) => (
+        <button className="transaction-mobile-row" key={item.id} type="button" disabled={loading} onClick={() => onEdit(item)}>
+          <span className="transaction-mobile-main">
+            <span className="transaction-mobile-date">{renderCell('date', item, resource, lookups)}</span>
+            <span className="transaction-mobile-detail">
+              <span className="transaction-mobile-category">
+                <CategoryLabel
+                  category={lookups.categories?.find((entry) => entry.id === item.category_id)}
+                  fallback=""
+                  iconOnly
+                />
+              </span>
+              <span className="transaction-mobile-label">{renderCell('label', item, resource, lookups)}</span>
+            </span>
+          </span>
+          <span className="transaction-mobile-amount">{renderCell('amount_cents', item, resource, lookups)}</span>
+        </button>
+      ))}
+      {!loading && data.length === 0 ? <div className="transaction-mobile-empty">Aucune donnée.</div> : null}
+    </div>
+  )
+}
+
 function ResourceList({
   columns,
   data,
@@ -268,6 +376,7 @@ function ResourceList({
   const paginatedData = displayedData.slice(pageStart, pageStart + pageSize)
   const firstVisibleRow = displayedData.length === 0 ? 0 : pageStart + 1
   const lastVisibleRow = Math.min(pageStart + pageSize, displayedData.length)
+  const isTransactionResource = resource.key === 'expenses' || resource.key === 'incomes'
 
   function toggleSort(column) {
     setPage(1)
@@ -289,7 +398,7 @@ function ResourceList({
       return faSort
     }
 
-    return sort.direction === 'asc' ? faSortUp : faSortDown
+    return getSortIconForDirection(sort.direction)
   }
 
   function updateFilter(column, value) {
@@ -303,7 +412,7 @@ function ResourceList({
   }
 
   return (
-    <section className="table-panel list-panel">
+    <section className={`table-panel list-panel ${isTransactionResource ? 'is-transaction-list' : ''}`}>
       <div className="table-title">
         <div className="list-toolbar">
           <span>
@@ -344,6 +453,17 @@ function ResourceList({
           </div>
         </div>
       </div>
+
+      {isTransactionResource ? (
+        <TransactionMobileControls
+          categoryFilter={filters.category_id}
+          lookups={lookups}
+          resource={resource}
+          sort={sort}
+          onCategoryChange={(value) => updateFilter('category_id', value)}
+          onDateSort={() => toggleSort('date')}
+        />
+      ) : null}
 
       <div className="table-wrap">
         {loading ? <LoadingOverlay label="Chargement des données" /> : null}
@@ -408,6 +528,15 @@ function ResourceList({
             />
           </tfoot>
         </table>
+        {isTransactionResource ? (
+          <TransactionMobileList
+            data={displayedData}
+            loading={loading}
+            lookups={lookups}
+            resource={resource}
+            onEdit={onEdit}
+          />
+        ) : null}
       </div>
     </section>
   )

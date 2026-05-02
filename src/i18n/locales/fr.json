@@ -13,6 +13,7 @@
     "language": "Langue",
     "logout": "Déconnexion",
     "settings": "Paramètres",
+    "closeMenu": "Fermer le menu",
     "startTour": "Visite guidée",
     "switchToDark": "Passer en mode sombre",
     "switchToLight": "Passer en mode clair"
@@ -24,6 +25,7 @@
     "checkingSession": "Vérification de la session"
   },
   "common": {
+    "close": "Fermer",
     "no": "Non",
     "yes": "Oui",
     "currentMonth": "Mois en cours"
