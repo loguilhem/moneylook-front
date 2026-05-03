@@ -1,0 +1,25 @@
+{
+  "name": "Moneylook",
+  "short_name": "Moneylook",
+  "description": "Suivi personnel des revenus, depenses et statistiques.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f8fb",
+  "theme_color": "#00aeef",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/moneylook-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
