@@ -65,7 +65,7 @@ export function buildStatsData({
   const incomes = allIncomes.filter((income) => isInRange(income, startDate, endDate))
   const totalExpenseCents = sum(expenses)
   const totalIncomeCents = sum(incomes)
-  const categoryRows = buildExpenseCategoryRows(expenses, categories, totalExpenseCents)
+  const { categoryDetailsByParent, categoryRows } = buildExpenseCategoryStats(expenses, categories, totalExpenseCents)
   const accountRows = buildAccountRows(expenses, incomes, bankAccounts)
   const accountTypeRows = buildAccountTypeRows(accountRows, accountTypes)
   const currentAccountSummary = buildCurrentAccountSummary(expenses, incomes, bankAccounts, accountTypes)
@@ -76,6 +76,7 @@ export function buildStatsData({
   return {
     accountRows,
     accountTypeRows,
+    categoryDetailsByParent,
     annualRows,
     categoryRows,
     currentAccountSummary,
@@ -87,25 +88,80 @@ export function buildStatsData({
   }
 }
 
-function buildExpenseCategoryRows(expenses, categories, totalExpenseCents) {
+function buildExpenseCategoryStats(expenses, categories, totalExpenseCents) {
   const categoryById = new Map(categories.map((category) => [category.id, category]))
   const totals = new Map()
+  const childTotalsByParent = new Map()
+  const expensesByParent = new Map()
 
   expenses.forEach((expense) => {
-    totals.set(expense.category_id, (totals.get(expense.category_id) ?? 0) + amount(expense))
+    const parentCategory = getParentCategory(categoryById, expense.category_id)
+    const categoryId = parentCategory?.id ?? expense.category_id
+    const expenseCategory = categoryById.get(expense.category_id)
+
+    totals.set(categoryId, (totals.get(categoryId) ?? 0) + amount(expense))
+
+    if (parentCategory?.id && expenseCategory?.parent) {
+      const childTotals = childTotalsByParent.get(parentCategory.id) ?? new Map()
+      childTotals.set(expenseCategory.id, (childTotals.get(expenseCategory.id) ?? 0) + amount(expense))
+      childTotalsByParent.set(parentCategory.id, childTotals)
+
+      const parentExpenses = expensesByParent.get(parentCategory.id) ?? []
+      parentExpenses.push({
+        ...expense,
+        category: expenseCategory,
+      })
+      expensesByParent.set(parentCategory.id, parentExpenses)
+    }
   })
 
-  return [...totals.entries()]
-    .map(([categoryId, totalCents]) => {
-      const category = categoryById.get(categoryId)
-
-      return {
-        category,
-        percentage: totalExpenseCents > 0 ? (totalCents / totalExpenseCents) * 100 : 0,
-        total_cents: totalCents,
-      }
-    })
+  const categoryRows = [...totals.entries()]
+    .map(([categoryId, totalCents]) => ({
+      category: categoryById.get(categoryId),
+      percentage: totalExpenseCents > 0 ? (totalCents / totalExpenseCents) * 100 : 0,
+      total_cents: totalCents,
+    }))
     .sort((a, b) => b.total_cents - a.total_cents)
+
+  const categoryDetailsByParent = Object.fromEntries(
+    [...childTotalsByParent.entries()].map(([parentCategoryId, childTotals]) => {
+      const parentExpenseRows = expensesByParent.get(parentCategoryId) ?? []
+      const parentChildrenTotalCents = sum(parentExpenseRows)
+
+      return [
+        parentCategoryId,
+        {
+          childRows: [...childTotals.entries()]
+            .map(([categoryId, totalCents]) => ({
+              category: categoryById.get(categoryId),
+              percentage: parentChildrenTotalCents > 0 ? (totalCents / parentChildrenTotalCents) * 100 : 0,
+              total_cents: totalCents,
+            }))
+            .sort((a, b) => b.total_cents - a.total_cents),
+          expenseRows: parentExpenseRows.sort((a, b) => b.date.localeCompare(a.date)),
+          total_cents: parentChildrenTotalCents,
+        },
+      ]
+    }),
+  )
+
+  return { categoryDetailsByParent, categoryRows }
+}
+
+function getParentCategory(categoryById, categoryId) {
+  let category = categoryById.get(categoryId)
+  const visitedCategoryIds = new Set()
+
+  while (category?.parent) {
+    if (visitedCategoryIds.has(category.id)) {
+      return category
+    }
+
+    visitedCategoryIds.add(category.id)
+    category = categoryById.get(category.parent) ?? category
+  }
+
+  return category
 }
 
 function buildAccountRows(expenses, incomes, bankAccounts) {

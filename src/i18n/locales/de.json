@@ -112,6 +112,7 @@
       "initialBalance": "Anfangssaldo",
       "label": "Bezeichnung",
       "name": "Name",
+      "parent": "Übergeordnet",
       "startDate": "Start"
     },
     "stats": {
@@ -200,6 +201,10 @@
       "total": "Total"
     },
     "expenseDistribution": {
+      "childrenTitle": "Aufteilung der Unterkategorien",
+      "detailsTitle": "Kategoriedetail",
+      "expensesTitle": "Ausgaben",
+      "selectParent": "Wähle eine übergeordnete Kategorie",
       "title": "Ausgabenverteilung"
     },
     "bankAccounts": {

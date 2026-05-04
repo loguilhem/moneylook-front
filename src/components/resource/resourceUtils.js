@@ -124,6 +124,7 @@ export function formatResourceValue(field, item, lookups) {
     account_type_id: lookups.accountTypes,
     bank_account_id: lookups.bankAccounts,
     category_id: lookups.categories,
+    parent: lookups.categories,
   }
 
   const lookup = lookupMap[field.name]

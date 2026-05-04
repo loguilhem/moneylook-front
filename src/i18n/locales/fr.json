@@ -141,7 +141,8 @@
       "initialBalance": "Solde initial",
       "isActive": "Actif",
       "label": "Libellé",
-      "name": "Nom"
+      "name": "Nom",
+      "parent": "Parent"
     },
     "stats": {
       "label": "Stats",
@@ -229,6 +230,10 @@
       "total": "Total"
     },
     "expenseDistribution": {
+      "childrenTitle": "Répartition des sous-catégories",
+      "detailsTitle": "Détail catégorie",
+      "expensesTitle": "Dépenses",
+      "selectParent": "Sélectionne une catégorie parent",
       "title": "Répartition des dépenses"
     },
     "bankAccounts": {

@@ -1531,6 +1531,52 @@ input[type="color"].compact-input {
   min-width: 420px;
 }
 
+.stat-table-panel tr.is-selected {
+  background: rgba(0, 174, 239, 0.14);
+}
+
+.stat-category-button {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.stat-category-button:hover {
+  color: var(--azure-dark);
+}
+
+.expense-category-details-panel {
+  align-self: start;
+}
+
+.expense-category-details {
+  display: grid;
+  gap: 14px;
+  padding-top: 4px;
+}
+
+.expense-category-detail-block h3 {
+  margin: 12px 14px 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.expense-category-details-empty {
+  margin: 0;
+  padding: 28px 16px;
+  color: var(--muted);
+  text-align: center;
+}
+
 .stat-chart-panel {
   padding: 14px;
 }

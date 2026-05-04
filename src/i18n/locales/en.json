@@ -141,7 +141,8 @@
       "initialBalance": "Initial balance",
       "isActive": "Active",
       "label": "Label",
-      "name": "Name"
+      "name": "Name",
+      "parent": "Parent"
     },
     "stats": {
       "label": "Stats",
@@ -229,6 +230,10 @@
       "total": "Total"
     },
     "expenseDistribution": {
+      "childrenTitle": "Children breakdown",
+      "detailsTitle": "Category detail",
+      "expensesTitle": "Expenses",
+      "selectParent": "Select a parent category",
       "title": "Expense distribution"
     },
     "bankAccounts": {

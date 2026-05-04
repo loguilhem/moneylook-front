@@ -22,6 +22,11 @@ function renderCell(column, item, resource, lookups) {
     return <CategoryLabel category={item} />
   }
 
+  if (resource.key === 'categories' && column === 'parent') {
+    const parent = lookups.categories?.find((entry) => entry.id === item.parent)
+    return <CategoryLabel category={parent} fallback={item.parent ? `#${item.parent}` : '-'} />
+  }
+
   const field = resource.fields.find((resourceField) => resourceField.name === column)
   if (field?.name === 'category_id') {
     const category = lookups.categories?.find((entry) => entry.id === item.category_id)
@@ -44,6 +49,7 @@ function getLookupValue(field, value, lookups) {
     account_type_id: lookups.accountTypes,
     bank_account_id: lookups.bankAccounts,
     category_id: lookups.categories,
+    parent: lookups.categories,
   }
   const lookup = lookupMap[field.name]
   const lookupItem = lookup?.find((entry) => entry.id === value)

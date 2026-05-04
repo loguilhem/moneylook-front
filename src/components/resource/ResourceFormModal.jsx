@@ -22,6 +22,7 @@ function ResourceFormModal({ resource, form, lookups, editingId, saving, onChang
                 <FieldInput
                   disabled={saving}
                   field={field}
+                  currentItemId={editingId}
                   value={form[field.name]}
                   lookups={lookups}
                   onChange={onChange}

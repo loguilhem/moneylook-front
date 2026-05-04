@@ -112,6 +112,7 @@
       "initialBalance": "Saldo iniziale",
       "label": "Etichetta",
       "name": "Nome",
+      "parent": "Genitore",
       "startDate": "Inizio"
     },
     "stats": {
@@ -200,6 +201,10 @@
       "total": "Totale"
     },
     "expenseDistribution": {
+      "childrenTitle": "Ripartizione delle sottocategorie",
+      "detailsTitle": "Dettaglio categoria",
+      "expensesTitle": "Spese",
+      "selectParent": "Seleziona una categoria genitore",
       "title": "Ripartizione delle spese"
     },
     "bankAccounts": {

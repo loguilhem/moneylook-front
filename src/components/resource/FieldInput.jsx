@@ -2,7 +2,7 @@ import { itemLabel } from './resourceUtils'
 import CategorySelect from './CategorySelect'
 import SearchableSelect from './SearchableSelect'
 
-function FieldInput({ field, value, lookups, onChange, compact = false, formId, disabled = false }) {
+function FieldInput({ field, value, lookups, onChange, compact = false, formId, disabled = false, currentItemId = null }) {
   const className = compact ? 'compact-input' : undefined
 
   if (field.type === 'boolean') {
@@ -19,12 +19,13 @@ function FieldInput({ field, value, lookups, onChange, compact = false, formId, 
   }
 
   if (field.type === 'select' || field.type === 'static-select') {
-    if (field.name === 'category_id') {
+    if (field.name === 'category_id' || field.name === 'parent') {
       return (
         <CategorySelect
           categories={lookups.categories ?? []}
           compact={compact}
           disabled={disabled}
+          excludeIds={field.name === 'parent' && currentItemId ? [currentItemId] : []}
           fallback="Aucun"
           optional={field.optional}
           placeholder={field.optional ? 'Aucun' : 'Choisir'}

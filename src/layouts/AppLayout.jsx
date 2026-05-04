@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import NavbarMobile from '../components/NavbarMobile'
 import Footer from '../components/Footer'
 import GuidedTour, { TOUR_COMPLETED_KEY } from '../components/GuidedTour'
 import SessionLoader from '../components/SessionLoader'
 import { useAppContext } from '../context/AppContext'
+import { useIsMobileDevice } from '../components/navbarDevice'
 
 function AppLayout() {
   const { authChecked, authUser } = useAppContext()
   const [isTourOpen, setIsTourOpen] = useState(false)
+  const isMobileDevice = useIsMobileDevice()
 
   useEffect(() => {
     if (!authUser || localStorage.getItem(TOUR_COMPLETED_KEY)) {
@@ -38,7 +41,7 @@ function AppLayout() {
 
   return (
     <div className="app-shell">
-      <Navbar onStartTour={openTour} />
+      {isMobileDevice ? <NavbarMobile /> : <Navbar onStartTour={openTour} />}
       <main className="app-content" data-tour="app-content">
         <Outlet />
       </main>

@@ -21,6 +21,7 @@ export const resources = [
     descriptionKey: 'resources.categories.description',
     fields: [
       { name: 'name', labelKey: 'resources.fields.name', type: 'text', required: true },
+      { name: 'parent', labelKey: 'resources.fields.parent', type: 'select', source: 'categories', optional: true },
       { name: 'icon_html', labelKey: 'resources.fields.iconHtml', type: 'text', required: true },
       { name: 'color', labelKey: 'resources.fields.color', type: 'color', required: true, defaultValue: '#00aeef' },
     ],
