@@ -45,7 +45,7 @@ function applyTheme(theme) {
 
 applyTheme(getStoredTheme())
 
-async function request(endpoint, options = {}) {
+export async function request(endpoint, options = {}) {
   const headers = {
     ...options.headers,
   }
@@ -61,7 +61,16 @@ async function request(endpoint, options = {}) {
   })
 
   if (!response.ok) {
-    const message = await response.text()
+    const rawMessage = await response.text()
+    let message = rawMessage
+
+    try {
+      const parsedMessage = JSON.parse(rawMessage)
+      message = parsedMessage.detail || rawMessage
+    } catch {
+      message = rawMessage
+    }
+
     const error = new Error(message || `Erreur HTTP ${response.status}`)
     error.status = response.status
     throw error

@@ -1,7 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const STORAGE_KEY = 'moneylook.llmConfig'
+import { request } from '../context/AppContext'
 
 const defaultConfig = {
   enabled: false,
@@ -27,24 +26,47 @@ const providerDefaults = {
   },
 }
 
-function readStoredConfig() {
-  try {
-    const storedConfig = JSON.parse(localStorage.getItem(STORAGE_KEY))
-    return { ...defaultConfig, ...storedConfig }
-  } catch {
-    return defaultConfig
-  }
-}
-
 function LlmPage() {
   const { t } = useTranslation()
-  const [config, setConfig] = useState(readStoredConfig)
+  const [config, setConfig] = useState(defaultConfig)
+  const [hasApiKey, setHasApiKey] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isTesting, setIsTesting] = useState(false)
+  const [testResult, setTestResult] = useState(null)
+  const [error, setError] = useState('')
   const [saveState, setSaveState] = useState('idle')
   const selectedProviderDefaults = useMemo(() => providerDefaults[config.provider] ?? providerDefaults.custom, [config.provider])
+
+  useEffect(() => {
+    async function loadSettings() {
+      setIsLoading(true)
+      setError('')
+
+      try {
+        const settings = await request('/llm/settings')
+        setConfig({
+          enabled: settings.enabled,
+          provider: settings.provider,
+          apiKey: '',
+          baseUrl: settings.base_url,
+          model: settings.model,
+          organization: settings.organization,
+        })
+        setHasApiKey(settings.has_api_key)
+      } catch (loadError) {
+        setError(t('llm.errors.load', { message: loadError.message }))
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadSettings()
+  }, [t])
 
   function updateConfig(field, value) {
     setConfig((currentConfig) => ({ ...currentConfig, [field]: value }))
     setSaveState('idle')
+    setTestResult(null)
   }
 
   function handleProviderChange(event) {
@@ -58,6 +80,7 @@ function LlmPage() {
       model: defaults.model,
     }))
     setSaveState('idle')
+    setTestResult(null)
   }
 
   function useProviderDefaults() {
@@ -67,18 +90,81 @@ function LlmPage() {
       model: selectedProviderDefaults.model,
     }))
     setSaveState('idle')
+    setTestResult(null)
   }
 
   function handleSubmit(event) {
     event.preventDefault()
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
-    setSaveState('saved')
+
+    saveSettings(config.apiKey || undefined)
   }
 
   function clearConfig() {
-    localStorage.removeItem(STORAGE_KEY)
     setConfig(defaultConfig)
-    setSaveState('cleared')
+    setHasApiKey(false)
+    saveSettings('', defaultConfig)
+  }
+
+  async function saveSettings(apiKeyOverride, sourceConfig = config, nextSaveState = apiKeyOverride === '' ? 'cleared' : 'saved') {
+    setError('')
+
+    try {
+      const payload = {
+        enabled: sourceConfig.enabled,
+        provider: sourceConfig.provider,
+        base_url: sourceConfig.baseUrl,
+        model: sourceConfig.model,
+        organization: sourceConfig.organization,
+      }
+
+      if (apiKeyOverride !== undefined) {
+        payload.api_key = apiKeyOverride
+      }
+
+      const settings = await request('/llm/settings', {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+      })
+
+      setConfig((currentConfig) => ({
+        ...currentConfig,
+        enabled: settings.enabled,
+        provider: settings.provider,
+        apiKey: '',
+        baseUrl: settings.base_url,
+        model: settings.model,
+        organization: settings.organization,
+      }))
+      setHasApiKey(settings.has_api_key)
+      setSaveState(nextSaveState)
+      setTestResult(null)
+      return settings
+    } catch (saveError) {
+      setError(t('llm.errors.save', { message: saveError.message }))
+      throw saveError
+    }
+  }
+
+  async function testConnection() {
+    setIsTesting(true)
+    setError('')
+    setTestResult(null)
+
+    try {
+      await saveSettings(config.apiKey || undefined, config, 'idle')
+      const result = await request('/llm/test', { method: 'POST' })
+      setTestResult({
+        ok: result.ok,
+        message: result.message || t('llm.test.success'),
+      })
+    } catch (testError) {
+      setTestResult({
+        ok: false,
+        message: testError.message,
+      })
+    } finally {
+      setIsTesting(false)
+    }
   }
 
   const requiresApiKey = config.provider !== 'ollama'
@@ -94,6 +180,14 @@ function LlmPage() {
       </header>
 
       <form className="llm-config-panel" onSubmit={handleSubmit}>
+        {error ? <p className="alert">{error}</p> : null}
+        {isLoading ? (
+          <p className="inline-loader">
+            <span className="loader-spinner" aria-hidden="true" />
+            {t('llm.loading')}
+          </p>
+        ) : null}
+
         <section className="llm-form-section" aria-labelledby="llm-provider-title">
           <div className="section-heading">
             <h2 id="llm-provider-title">{t('llm.sections.provider')}</h2>
@@ -157,7 +251,7 @@ function LlmPage() {
               <input
                 type="password"
                 value={config.apiKey}
-                placeholder={requiresApiKey ? t('llm.placeholders.apiKey') : t('llm.placeholders.notRequired')}
+                placeholder={requiresApiKey ? (hasApiKey ? t('llm.placeholders.savedApiKey') : t('llm.placeholders.apiKey')) : t('llm.placeholders.notRequired')}
                 disabled={!requiresApiKey}
                 onChange={(event) => updateConfig('apiKey', event.target.value)}
               />
@@ -181,10 +275,20 @@ function LlmPage() {
             {saveState === 'saved' ? t('llm.saved') : null}
             {saveState === 'cleared' ? t('llm.cleared') : null}
           </div>
+          {testResult ? (
+            <div className={`llm-test-status ${testResult.ok ? 'is-success' : 'is-error'}`} role="status">
+              <span aria-hidden="true" />
+              <strong>{testResult.ok ? t('llm.test.success') : t('llm.test.error')}</strong>
+              <p>{testResult.message}</p>
+            </div>
+          ) : null}
+          <button className="secondary-button" type="button" disabled={isLoading || isTesting} onClick={testConnection}>
+            {isTesting ? t('llm.actions.testing') : t('llm.actions.test')}
+          </button>
           <button className="ghost-button" type="button" onClick={clearConfig}>
             {t('llm.actions.clear')}
           </button>
-          <button className="primary-button" type="submit">
+          <button className="primary-button" type="submit" disabled={isLoading}>
             {t('llm.actions.save')}
           </button>
         </footer>

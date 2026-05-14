@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import NavbarMobile from '../components/NavbarMobile'
 import Footer from '../components/Footer'
+import FloatingChat from '../components/FloatingChat'
 import GuidedTour, { TOUR_COMPLETED_KEY } from '../components/GuidedTour'
 import SessionLoader from '../components/SessionLoader'
 import { useAppContext } from '../context/AppContext'
@@ -46,6 +47,7 @@ function AppLayout() {
         <Outlet />
       </main>
       {isTourOpen ? <GuidedTour onClose={closeTour} /> : null}
+      <FloatingChat />
       <Footer />
     </div>
   )

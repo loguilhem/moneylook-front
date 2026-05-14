@@ -45,13 +45,35 @@
     "loadingPages": "Loading pages",
     "logoutDescription": "Close the session on this device."
   },
+  "chat": {
+    "ariaLabel": "Skiro chat",
+    "button": "discuter avec Skiro",
+    "close": "Close chat",
+    "error": "I cannot answer right now: {{message}}",
+    "messageLabel": "Message",
+    "pendingConnection": "I am not connected to the LLM yet, but the interface is ready.",
+    "placeholder": "Write your message...",
+    "send": "Send",
+    "subtitle": "Moneylook assistant",
+    "title": "Skiro",
+    "welcome": "Hi, I am Skiro. Ask me a question about your budget."
+  },
   "llm": {
     "eyebrow": "Assistant",
     "title": "LLM",
     "description": "Choose the provider Moneylook should use for assistant features.",
     "providerHelp": "Connect a remote OpenAI-compatible API or a local Ollama instance.",
+    "loading": "Loading LLM configuration",
     "saved": "Configuration saved.",
     "cleared": "Configuration cleared.",
+    "errors": {
+      "load": "Unable to load LLM configuration: {{message}}",
+      "save": "Unable to save LLM configuration: {{message}}"
+    },
+    "test": {
+      "success": "Connection successful",
+      "error": "Connection failed"
+    },
     "sections": {
       "provider": "Connection",
       "credentials": "Credentials"
@@ -75,10 +97,13 @@
     },
     "placeholders": {
       "apiKey": "sk-...",
+      "savedApiKey": "API key saved",
       "notRequired": "Not required",
       "organization": "Optional"
     },
     "actions": {
+      "test": "Test connection",
+      "testing": "Testing...",
       "useDefaults": "Use defaults",
       "clear": "Clear",
       "save": "Save"
