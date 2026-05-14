@@ -11,6 +11,7 @@ import IncomesPage from '../pages/IncomesPage'
 import RecurringIncomesPage from '../pages/RecurringIncomesPage'
 import BankAccountsPage from '../pages/BankAccountsPage'
 import AccountTypesPage from '../pages/AccountTypesPage'
+import LlmPage from '../pages/LlmPage'
 import NotFoundPage from '../pages/NotFoundPage'
 import RouterErrorPage from '../pages/RouterErrorPage'
 
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
       {
         path: '/resource/account-types',
         element: <AccountTypesPage />,
+      },
+      {
+        path: '/llm',
+        element: <LlmPage />,
       },
       {
         path: '*',

@@ -1,9 +1,11 @@
-const CACHE_NAME = 'moneylook-shell-v1'
+const CACHE_NAME = 'moneylook-shell-v2'
 const APP_SHELL = [
   '/',
   '/manifest.webmanifest',
   '/favicon.svg',
   '/icons.svg',
+  '/moneylook-icon-192.png',
+  '/moneylook-icon-512.png',
   '/moneylook-icon.png',
 ]
 

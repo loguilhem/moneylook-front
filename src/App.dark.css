@@ -289,6 +289,8 @@ p {
 
 .nav-links a,
 .settings-menu-panel a {
+  gap: 8px;
+  justify-content: flex-start;
   white-space: nowrap;
 }
 
@@ -1669,6 +1671,54 @@ input[type="color"].compact-input {
   max-height: 360px;
 }
 
+/* ========== LLM ========== */
+
+.llm-page {
+  max-width: 980px;
+}
+
+.llm-config-panel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.llm-form-section {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-alt);
+}
+
+.llm-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.llm-enabled-label {
+  align-self: end;
+  min-height: 42px;
+}
+
+.llm-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.llm-form-status {
+  margin-right: auto;
+  color: var(--success);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
 /* ========== Pages simples (404 / erreur route) ========== */
 
 .page-shell > a {
@@ -1725,7 +1775,7 @@ input[type="color"].compact-input {
 
   .nav-links {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     width: 100%;
   }
 
@@ -1753,6 +1803,7 @@ input[type="color"].compact-input {
   .stats-filters,
   .stats-summary,
   .date-range-filter-fields,
+  .llm-form-grid,
   .modal-form-grid,
   .login-shell {
     grid-template-columns: 1fr;
@@ -1772,16 +1823,27 @@ input[type="color"].compact-input {
   }
 
   .page-actions,
+  .llm-form-actions,
   .modal-actions {
     justify-content: stretch;
   }
 
   .page-actions button,
+  .llm-form-actions button,
   .modal-actions button,
   .page-add-button,
   .modal-submit-button,
   .modal-cancel-button {
     width: 100%;
+  }
+
+  .llm-form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .llm-form-status {
+    margin-right: 0;
   }
 
   .transaction-page .page-actions {

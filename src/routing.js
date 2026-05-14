@@ -23,6 +23,10 @@ export function pageFromPath(pathname) {
     return 'stats'
   }
 
+  if (cleanPath === '/llm') {
+    return 'llm'
+  }
+
   if (cleanPath.startsWith('/resource/')) {
     const resourceRoute = decodeURIComponent(cleanPath.slice('/resource/'.length))
     const resourceEntry = Object.entries(resourceRoutes).find(([, route]) => route === resourceRoute)
@@ -40,6 +44,10 @@ export function pathFromPage(pageKey) {
 
   if (pageKey === 'stats') {
     return '/stats'
+  }
+
+  if (pageKey === 'llm') {
+    return '/llm'
   }
 
   if (resourceByKey[pageKey]) {

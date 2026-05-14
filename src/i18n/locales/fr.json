@@ -10,6 +10,7 @@
     "recurringIncomes": "Revenus récurrents",
     "bankAccounts": "Comptes bancaires",
     "accountTypes": "Types de compte",
+    "llm": "LLM",
     "language": "Langue",
     "logout": "Déconnexion",
     "settings": "Paramètres",
@@ -43,6 +44,45 @@
     "availablePages": "Pages disponibles",
     "loadingPages": "Chargement des pages",
     "logoutDescription": "Fermer la session sur cet appareil."
+  },
+  "llm": {
+    "eyebrow": "Assistant",
+    "title": "LLM",
+    "description": "Choisis le fournisseur utilisé par Moneylook pour les fonctions d'assistance.",
+    "providerHelp": "Connecte une API distante compatible OpenAI ou une instance locale Ollama.",
+    "saved": "Configuration enregistrée.",
+    "cleared": "Configuration effacée.",
+    "sections": {
+      "provider": "Connexion",
+      "credentials": "Identifiants"
+    },
+    "providers": {
+      "openai": "OpenAI / ChatGPT",
+      "custom": "API compatible OpenAI",
+      "ollama": "Ollama local"
+    },
+    "fields": {
+      "enabled": "Activer le LLM",
+      "provider": "Fournisseur",
+      "baseUrl": "URL de base",
+      "model": "Modèle",
+      "apiKey": "Clé API",
+      "organization": "Organisation / projet"
+    },
+    "credentialsHelp": {
+      "remote": "La clé API sera utilisée pour authentifier les appels côté application.",
+      "local": "Ollama local ne nécessite généralement pas de clé API."
+    },
+    "placeholders": {
+      "apiKey": "sk-...",
+      "notRequired": "Non requis",
+      "organization": "Optionnel"
+    },
+    "actions": {
+      "useDefaults": "Utiliser les valeurs par défaut",
+      "clear": "Effacer",
+      "save": "Enregistrer"
+    }
   },
   "tour": {
     "eyebrow": "Visite {{current}}/{{total}}",

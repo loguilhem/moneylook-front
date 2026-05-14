@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faChartLine, faCoins, faHandHoldingDollar, faMoon, faRightFromBracket, faSun, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faChartLine, faCoins, faHandHoldingDollar, faMoon, faRightFromBracket, faRobot, faSun, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next'
 import logo from '../assets/logo.png'
 import { useAppContext } from '../context/AppContext'
@@ -68,6 +68,9 @@ function NavbarMobile() {
           </NavLink>
           <NavLink to="/resource/expenses" aria-label={t('nav.expenses')} title={t('nav.expenses')} data-tour="nav-expenses" onClick={closeMobileMenu}>
             <FontAwesomeIcon icon={faCoins} />
+          </NavLink>
+          <NavLink to="/llm" aria-label={t('nav.llm')} title={t('nav.llm')} onClick={closeMobileMenu}>
+            <FontAwesomeIcon icon={faRobot} />
           </NavLink>
           <button
             className="mobile-nav-action"

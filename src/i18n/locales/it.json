@@ -10,6 +10,7 @@
     "recurringIncomes": "Entrate ricorrenti",
     "bankAccounts": "Conti bancari",
     "accountTypes": "Tipi di conto",
+    "llm": "LLM",
     "language": "Lingua",
     "settings": "Impostazioni",
     "logout": "Disconnetti",
@@ -43,6 +44,45 @@
     "availablePages": "Pagine disponibili",
     "loadingPages": "Caricamento delle pagine",
     "logoutDescription": "Chiudi la sessione su questo dispositivo."
+  },
+  "llm": {
+    "eyebrow": "Assistente",
+    "title": "LLM",
+    "description": "Scegli il provider che Moneylook usera per le funzioni di assistenza.",
+    "providerHelp": "Collega un'API remota compatibile OpenAI o un'istanza Ollama locale.",
+    "saved": "Configurazione salvata.",
+    "cleared": "Configurazione cancellata.",
+    "sections": {
+      "provider": "Connessione",
+      "credentials": "Credenziali"
+    },
+    "providers": {
+      "openai": "OpenAI / ChatGPT",
+      "custom": "API compatibile OpenAI",
+      "ollama": "Ollama locale"
+    },
+    "fields": {
+      "enabled": "Attiva LLM",
+      "provider": "Provider",
+      "baseUrl": "URL di base",
+      "model": "Modello",
+      "apiKey": "Chiave API",
+      "organization": "Organizzazione / progetto"
+    },
+    "credentialsHelp": {
+      "remote": "La chiave API sara usata per autenticare le chiamate dell'applicazione.",
+      "local": "Ollama locale di solito non richiede una chiave API."
+    },
+    "placeholders": {
+      "apiKey": "sk-...",
+      "notRequired": "Non richiesta",
+      "organization": "Opzionale"
+    },
+    "actions": {
+      "useDefaults": "Usa valori predefiniti",
+      "clear": "Cancella",
+      "save": "Salva"
+    }
   },
   "tour": {
     "eyebrow": "Tour {{current}}/{{total}}",
