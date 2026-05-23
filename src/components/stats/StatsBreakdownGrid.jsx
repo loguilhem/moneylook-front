@@ -71,6 +71,8 @@ function StatsBreakdownGrid({ stats, t }) {
 }
 
 function ExpenseDistributionTable({ rows, selectedCategoryId, t, onSelectCategory }) {
+  const isAllSelected = selectedCategoryId === null
+
   return (
     <section className="table-panel stat-table-panel">
       <div className="table-title">
@@ -87,6 +89,19 @@ function ExpenseDistributionTable({ rows, selectedCategoryId, t, onSelectCategor
             </tr>
           </thead>
           <tbody>
+            <tr className={isAllSelected ? 'is-selected' : ''}>
+              <td>
+                <button
+                  className="stat-category-button"
+                  type="button"
+                  onClick={() => onSelectCategory(null)}
+                >
+                  {t('stats.expenseDistribution.allCategories')}
+                </button>
+              </td>
+              <td>{formatMoney(rows.reduce((total, row) => total + Number(row.total_cents ?? 0), 0))}</td>
+              <td>{rows.length > 0 ? formatPercent(100) : formatPercent(0)}</td>
+            </tr>
             {rows.map((row) => {
               const categoryId = row.category?.id
               const isSelected = String(categoryId) === String(selectedCategoryId)

@@ -298,6 +298,7 @@
       "total": "Total"
     },
     "expenseDistribution": {
+      "allCategories": "All categories",
       "childrenTitle": "Children breakdown",
       "detailsTitle": "Category detail",
       "expensesTitle": "Expenses",

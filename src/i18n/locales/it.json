@@ -269,6 +269,7 @@
       "total": "Totale"
     },
     "expenseDistribution": {
+      "allCategories": "Tutte le categorie",
       "childrenTitle": "Ripartizione delle sottocategorie",
       "detailsTitle": "Dettaglio categoria",
       "expensesTitle": "Spese",
