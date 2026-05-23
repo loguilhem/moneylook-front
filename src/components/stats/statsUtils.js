@@ -73,12 +73,20 @@ export function buildStatsData({
   const accountTypeRows = buildAccountTypeRows(accountRows, accountTypes)
   const currentAccountSummary = buildCurrentAccountSummary(expenses, incomes, bankAccounts, accountTypes)
   const annualRows = buildAnnualRows(allExpenses, allIncomes, selectedYear, monthLabels)
+  const { annualCategoryExpenseColumns, annualCategoryExpenseRows } = buildAnnualCategoryExpenseStats(
+    allExpenses,
+    categories,
+    selectedYear,
+    monthLabels,
+  )
   const monthlyAccountRows = buildMonthlyAccountRows(allExpenses, allIncomes, bankAccounts, selectedYear, monthLabels)
   const monthlyAccountColumns = buildMonthlyAccountColumns(bankAccounts, monthColumnLabel)
 
   return {
     accountRows,
     accountTypeRows,
+    annualCategoryExpenseColumns,
+    annualCategoryExpenseRows,
     categoryDetailsByParent,
     annualRows,
     categoryRows,
@@ -240,6 +248,54 @@ function buildAnnualRows(expenses, incomes, selectedYear, monthLabels) {
       month,
     }
   })
+}
+
+function buildAnnualCategoryExpenseStats(expenses, categories, selectedYear, monthLabels) {
+  const categoryById = new Map(categories.map((category) => [category.id, category]))
+  const totalsByCategory = new Map()
+  const rows = monthLabels.map((month, monthIndex) => ({
+    month,
+    monthKey: `${selectedYear}-${String(monthIndex + 1).padStart(2, '0')}`,
+  }))
+
+  expenses
+    .filter((expense) => expense.date.startsWith(String(selectedYear)))
+    .forEach((expense) => {
+      const parentCategory = getParentCategory(categoryById, expense.category_id)
+      const categoryId = parentCategory?.id ?? expense.category_id ?? 'uncategorized'
+      const categoryKey = `category_${categoryId}`
+      const category = parentCategory ?? categoryById.get(expense.category_id)
+      const monthRow = rows.find((row) => expense.date.startsWith(row.monthKey))
+
+      if (!monthRow) {
+        return
+      }
+
+      monthRow[categoryKey] = (monthRow[categoryKey] ?? 0) + amount(expense)
+      totalsByCategory.set(categoryKey, {
+        color: category?.color,
+        key: categoryKey,
+        label: category ? itemLabel(category) : `#${categoryId}`,
+        total_cents: (totalsByCategory.get(categoryKey)?.total_cents ?? 0) + amount(expense),
+      })
+    })
+
+  const annualCategoryExpenseColumns = [...totalsByCategory.values()]
+    .filter((column) => column.total_cents > 0)
+    .sort((a, b) => b.total_cents - a.total_cents)
+
+  const annualCategoryExpenseRows = rows.map((sourceRow) => {
+    const row = { ...sourceRow }
+    delete row.monthKey
+
+    annualCategoryExpenseColumns.forEach((column) => {
+      row[column.key] = row[column.key] ?? 0
+    })
+
+    return row
+  })
+
+  return { annualCategoryExpenseColumns, annualCategoryExpenseRows }
 }
 
 function buildMonthlyAccountColumns(bankAccounts, monthColumnLabel) {

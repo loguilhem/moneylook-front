@@ -272,6 +272,7 @@
       "childrenTitle": "Aufteilung der Unterkategorien",
       "detailsTitle": "Kategoriedetail",
       "expensesTitle": "Ausgaben",
+      "pieTitle": "Kreisdiagramm der Ausgaben",
       "selectParent": "Wähle eine übergeordnete Kategorie",
       "title": "Ausgabenverteilung"
     },
@@ -283,6 +284,7 @@
       "title": "Liquidität / Ersparnisse"
     },
     "annual": {
+      "categoryProgressTitle": "Entwicklung der Ausgaben nach Kategorien",
       "title": "Jahresansicht"
     },
     "annualSection": {

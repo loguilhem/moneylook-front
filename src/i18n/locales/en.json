@@ -301,6 +301,7 @@
       "childrenTitle": "Children breakdown",
       "detailsTitle": "Category detail",
       "expensesTitle": "Expenses",
+      "pieTitle": "Expense category pie chart",
       "selectParent": "Select a parent category",
       "title": "Expense distribution"
     },
@@ -312,6 +313,7 @@
       "title": "Cash / savings"
     },
     "annual": {
+      "categoryProgressTitle": "Expense progression by category",
       "title": "Annual view"
     },
     "annualSection": {

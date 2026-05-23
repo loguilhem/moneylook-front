@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import CategoryLabel from '../resource/CategoryLabel'
+import ExpenseCategoryPieChart from './ExpenseCategoryPieChart'
 import { StatTableBody } from './StatTable'
 import { formatMoney, formatPercent } from './statsFormatters'
 
@@ -26,6 +27,17 @@ function StatsBreakdownGrid({ stats, t }) {
 
     return expenseRows.filter((expense) => String(expense.category?.id) === String(selectedChildRow.category.id))
   }, [selectedChildRow, selectedDetails])
+  const pieRows = useMemo(() => {
+    if (selectedChildRow) {
+      return [selectedChildRow]
+    }
+
+    if (selectedCategoryRow) {
+      return selectedDetails?.childRows?.length > 0 ? selectedDetails.childRows : [selectedCategoryRow]
+    }
+
+    return stats.categoryRows
+  }, [selectedCategoryRow, selectedChildRow, selectedDetails, stats.categoryRows])
   const handleSelectCategory = (categoryId) => {
     setSelectedCategoryId(categoryId)
     setSelectedChildCategoryId(null)
@@ -53,6 +65,7 @@ function StatsBreakdownGrid({ stats, t }) {
           t={t}
         />
       </div>
+      <ExpenseCategoryPieChart rows={pieRows} t={t} />
     </>
   )
 }

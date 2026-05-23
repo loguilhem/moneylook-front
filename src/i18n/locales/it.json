@@ -272,6 +272,7 @@
       "childrenTitle": "Ripartizione delle sottocategorie",
       "detailsTitle": "Dettaglio categoria",
       "expensesTitle": "Spese",
+      "pieTitle": "Grafico a torta delle spese",
       "selectParent": "Seleziona una categoria genitore",
       "title": "Ripartizione delle spese"
     },
@@ -283,6 +284,7 @@
       "title": "Liquidità / risparmio"
     },
     "annual": {
+      "categoryProgressTitle": "Andamento delle spese per categoria",
       "title": "Vista annuale"
     },
     "annualSection": {

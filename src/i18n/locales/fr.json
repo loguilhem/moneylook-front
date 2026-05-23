@@ -301,6 +301,7 @@
       "childrenTitle": "Répartition des sous-catégories",
       "detailsTitle": "Détail catégorie",
       "expensesTitle": "Dépenses",
+      "pieTitle": "Camembert des dépenses",
       "selectParent": "Sélectionne une catégorie parent",
       "title": "Répartition des dépenses"
     },
@@ -312,6 +313,7 @@
       "title": "Trésorerie / épargne"
     },
     "annual": {
+      "categoryProgressTitle": "Progression des dépenses par catégories",
       "title": "Vue annuelle"
     },
     "annualSection": {

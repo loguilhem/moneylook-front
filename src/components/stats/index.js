@@ -1,4 +1,7 @@
 export { default as AnnualStatsSection } from './AnnualStatsSection'
+export { default as CategoryExpenseProgressChart } from './CategoryExpenseProgressChart'
+export { default as ExpenseCategoryPieChart } from './ExpenseCategoryPieChart'
+export { default as MonthlyAccountEvolutionChart } from './MonthlyAccountEvolutionChart'
 export { default as MonthlyAccountEvolutionSection } from './MonthlyAccountEvolutionSection'
 export { default as StatCard } from './StatCard'
 export { default as StatTable, StatTableBody } from './StatTable'

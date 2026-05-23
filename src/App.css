@@ -1649,6 +1649,37 @@ input[type="color"].compact-input {
   overflow-x: auto;
 }
 
+.recharts-shell {
+  width: 100%;
+  min-height: 300px;
+}
+
+.recharts-shell .recharts-wrapper {
+  font-size: 0.76rem;
+}
+
+.recharts-shell .recharts-cartesian-axis-tick-value,
+.recharts-shell .recharts-legend-item-text,
+.recharts-shell .recharts-default-tooltip,
+.recharts-shell .recharts-tooltip-label {
+  color: var(--muted) !important;
+}
+
+.recharts-shell .recharts-cartesian-grid line {
+  stroke: var(--line);
+}
+
+.recharts-shell .recharts-tooltip-wrapper .recharts-default-tooltip {
+  border: 1px solid var(--line) !important;
+  border-radius: var(--radius-sm);
+  background: var(--surface) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.pie-chart-shell {
+  min-height: 300px;
+}
+
 .line-chart {
   display: block;
   width: 100%;

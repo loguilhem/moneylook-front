@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useAppContext } from '../context/AppContext'
 import {
   AnnualStatsSection,
+  CategoryExpenseProgressChart,
   DEFAULT_MONTH_LABELS,
+  MonthlyAccountEvolutionChart,
   StatTable,
   StatsBreakdownGrid,
   StatsDateFilters,
@@ -18,11 +20,11 @@ function StatsPage() {
   const { i18n, t } = useTranslation()
   const { error, loading, store, loadAll } = useAppContext()
   const defaultRange = useMemo(() => getDefaultRange(), [])
-  const allExpenses = store.expenses ?? []
-  const allIncomes = store.incomes ?? []
-  const bankAccounts = store.bankAccounts ?? []
-  const accountTypes = store.accountTypes ?? []
-  const categories = store.categories ?? []
+  const allExpenses = useMemo(() => store.expenses ?? [], [store.expenses])
+  const allIncomes = useMemo(() => store.incomes ?? [], [store.incomes])
+  const bankAccounts = useMemo(() => store.bankAccounts ?? [], [store.bankAccounts])
+  const accountTypes = useMemo(() => store.accountTypes ?? [], [store.accountTypes])
+  const categories = useMemo(() => store.categories ?? [], [store.categories])
   const years = useMemo(() => buildYears(allExpenses, allIncomes), [allExpenses, allIncomes])
   const monthLabels = useMemo(() => {
     const translatedMonths = t('stats.months', { returnObjects: true })
@@ -103,6 +105,17 @@ function StatsPage() {
             ]}
             rows={stats.accountTypeRows}
             title={t('stats.treasurySavings.currentBalanceTitle', { date: todayLabel })}
+            t={t}
+          />
+          <CategoryExpenseProgressChart
+            columns={stats.annualCategoryExpenseColumns}
+            rows={stats.annualCategoryExpenseRows}
+            t={t}
+          />
+          <MonthlyAccountEvolutionChart
+            columns={stats.monthlyAccountColumns}
+            rows={stats.monthlyAccountRows}
+            selectedYear={selectedYear}
             t={t}
           />
         </div>

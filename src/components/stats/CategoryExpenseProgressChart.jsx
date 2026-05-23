@@ -10,34 +10,32 @@ import {
 } from 'recharts'
 import { formatMoney } from './statsFormatters'
 
-const CHART_COLORS = ['#00aeef', '#11b69a', '#f4a261', '#e76f51', '#5c7cfa', '#ef476f', '#8ac926', '#ffca3a']
+const FALLBACK_COLORS = ['#00aeef', '#11b69a', '#f4a261', '#e76f51', '#5c7cfa', '#ef476f', '#8ac926', '#ffca3a']
 
-function MonthlyAccountEvolutionChart({ columns, rows, selectedYear, t }) {
-  const accountColumns = columns.filter((column) => column.key !== 'month')
-
+function CategoryExpenseProgressChart({ columns, rows, t }) {
   return (
     <section className="table-panel stat-chart-panel">
       <div className="table-title">
-        <h2>{t('stats.monthlyAccountEvolution.title')}</h2>
-        <span>{selectedYear}</span>
+        <h2>{t('stats.annual.categoryProgressTitle')}</h2>
+        <span>{t('stats.rowsCount', { count: columns.length })}</span>
       </div>
-      {accountColumns.length > 0 ? (
+      {columns.length > 0 ? (
         <div className="recharts-shell">
-          <ResponsiveContainer height={320} width="100%">
+          <ResponsiveContainer height={340} width="100%">
             <LineChart data={rows} margin={{ bottom: 8, left: 12, right: 18, top: 12 }}>
               <CartesianGrid strokeDasharray="3 6" vertical={false} />
               <XAxis dataKey="month" tickLine={false} />
               <YAxis tickFormatter={(value) => formatMoney(value)} tickLine={false} width={96} />
               <Tooltip formatter={(value, name) => [formatMoney(value), name]} />
               <Legend />
-              {accountColumns.map((column, index) => (
+              {columns.map((column, index) => (
                 <Line
                   activeDot={{ r: 5 }}
                   dataKey={column.key}
                   dot={false}
                   key={column.key}
                   name={column.label}
-                  stroke={CHART_COLORS[index % CHART_COLORS.length]}
+                  stroke={column.color || FALLBACK_COLORS[index % FALLBACK_COLORS.length]}
                   strokeWidth={2}
                   type="monotone"
                 />
@@ -46,10 +44,10 @@ function MonthlyAccountEvolutionChart({ columns, rows, selectedYear, t }) {
           </ResponsiveContainer>
         </div>
       ) : (
-        <p className="chart-empty-state">{t('stats.monthlyAccountEvolution.chartEmpty')}</p>
+        <p className="chart-empty-state">{t('resources.noData')}</p>
       )}
     </section>
   )
 }
 
-export default MonthlyAccountEvolutionChart
+export default CategoryExpenseProgressChart
