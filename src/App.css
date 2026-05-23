@@ -1469,6 +1469,18 @@ input[type="color"].compact-input {
   margin-bottom: 18px;
 }
 
+.stats-section-heading {
+  margin: 22px 0 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.stats-section-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.18rem;
+}
+
 .section-heading {
   margin-bottom: 12px;
 }
@@ -1535,6 +1547,13 @@ input[type="color"].compact-input {
 
 .stats-grid-wide {
   grid-column: 1 / -1;
+}
+
+.stats-category-grid {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .stat-table-panel table {
@@ -1980,7 +1999,8 @@ input[type="color"].compact-input {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .stats-grid {
+  .stats-grid,
+  .stats-category-grid {
     grid-template-columns: 1fr;
   }
 }

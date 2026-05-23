@@ -226,6 +226,9 @@
     "loadingShort": "Caricamento...",
     "filters": "Filtri",
     "details": "Dettagli",
+    "selectedPeriod": {
+      "title": "Statistiche del periodo selezionato"
+    },
     "startDate": "Inizio",
     "endDate": "Fine",
     "year": "Anno",
@@ -276,10 +279,14 @@
       "title": "Per conto bancario"
     },
     "treasurySavings": {
+      "currentBalanceTitle": "Saldo attuale al {{date}}",
       "title": "Liquidità / risparmio"
     },
     "annual": {
       "title": "Vista annuale"
+    },
+    "annualSection": {
+      "title": "Statistiche annuali"
     },
     "monthlyAccountEvolution": {
       "title": "Evoluzione mensile dei conti bancari",

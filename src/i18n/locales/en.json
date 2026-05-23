@@ -255,6 +255,9 @@
     "loadingShort": "Loading...",
     "filters": "Filters",
     "details": "Details",
+    "selectedPeriod": {
+      "title": "Selected period stats"
+    },
     "startDate": "Start",
     "endDate": "End",
     "year": "Year",
@@ -305,10 +308,14 @@
       "title": "By bank account"
     },
     "treasurySavings": {
+      "currentBalanceTitle": "Current balance on {{date}}",
       "title": "Cash / savings"
     },
     "annual": {
       "title": "Annual view"
+    },
+    "annualSection": {
+      "title": "Annual stats"
     },
     "monthlyAccountEvolution": {
       "title": "Monthly bank account evolution",

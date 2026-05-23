@@ -255,6 +255,9 @@
     "loadingShort": "Chargement...",
     "filters": "Filtres",
     "details": "Détails",
+    "selectedPeriod": {
+      "title": "Stats de la période sélectionnée"
+    },
     "startDate": "Début",
     "endDate": "Fin",
     "year": "Année",
@@ -305,10 +308,14 @@
       "title": "Par compte bancaire"
     },
     "treasurySavings": {
+      "currentBalanceTitle": "Solde actuel au {{date}}",
       "title": "Trésorerie / épargne"
     },
     "annual": {
       "title": "Vue annuelle"
+    },
+    "annualSection": {
+      "title": "Stats annuelles"
     },
     "monthlyAccountEvolution": {
       "title": "Évolution mensuelle des comptes bancaires",

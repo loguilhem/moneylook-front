@@ -226,6 +226,9 @@
     "loadingShort": "Laden...",
     "filters": "Filter",
     "details": "Details",
+    "selectedPeriod": {
+      "title": "Statistiken des ausgewählten Zeitraums"
+    },
     "startDate": "Beginn",
     "endDate": "Ende",
     "year": "Jahr",
@@ -276,10 +279,14 @@
       "title": "Nach Bankkonto"
     },
     "treasurySavings": {
+      "currentBalanceTitle": "Aktueller Saldo am {{date}}",
       "title": "Liquidität / Ersparnisse"
     },
     "annual": {
       "title": "Jahresansicht"
+    },
+    "annualSection": {
+      "title": "Jahresstatistiken"
     },
     "monthlyAccountEvolution": {
       "title": "Monatliche Entwicklung der Bankkonten",

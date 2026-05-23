@@ -66,7 +66,10 @@ export function buildStatsData({
   const totalExpenseCents = sum(expenses)
   const totalIncomeCents = sum(incomes)
   const { categoryDetailsByParent, categoryRows } = buildExpenseCategoryStats(expenses, categories, totalExpenseCents)
-  const accountRows = buildAccountRows(expenses, incomes, bankAccounts)
+  const today = toDateInput(new Date())
+  const currentExpenses = allExpenses.filter((expense) => expense.date <= today)
+  const currentIncomes = allIncomes.filter((income) => income.date <= today)
+  const accountRows = buildAccountRows(currentExpenses, currentIncomes, bankAccounts)
   const accountTypeRows = buildAccountTypeRows(accountRows, accountTypes)
   const currentAccountSummary = buildCurrentAccountSummary(expenses, incomes, bankAccounts, accountTypes)
   const annualRows = buildAnnualRows(allExpenses, allIncomes, selectedYear, monthLabels)
@@ -101,17 +104,17 @@ function buildExpenseCategoryStats(expenses, categories, totalExpenseCents) {
 
     totals.set(categoryId, (totals.get(categoryId) ?? 0) + amount(expense))
 
+    const parentExpenses = expensesByParent.get(categoryId) ?? []
+    parentExpenses.push({
+      ...expense,
+      category: expenseCategory,
+    })
+    expensesByParent.set(categoryId, parentExpenses)
+
     if (parentCategory?.id && expenseCategory?.parent) {
       const childTotals = childTotalsByParent.get(parentCategory.id) ?? new Map()
       childTotals.set(expenseCategory.id, (childTotals.get(expenseCategory.id) ?? 0) + amount(expense))
       childTotalsByParent.set(parentCategory.id, childTotals)
-
-      const parentExpenses = expensesByParent.get(parentCategory.id) ?? []
-      parentExpenses.push({
-        ...expense,
-        category: expenseCategory,
-      })
-      expensesByParent.set(parentCategory.id, parentExpenses)
     }
   })
 
@@ -124,8 +127,8 @@ function buildExpenseCategoryStats(expenses, categories, totalExpenseCents) {
     .sort((a, b) => b.total_cents - a.total_cents)
 
   const categoryDetailsByParent = Object.fromEntries(
-    [...childTotalsByParent.entries()].map(([parentCategoryId, childTotals]) => {
-      const parentExpenseRows = expensesByParent.get(parentCategoryId) ?? []
+    [...expensesByParent.entries()].map(([parentCategoryId, parentExpenseRows]) => {
+      const childTotals = childTotalsByParent.get(parentCategoryId) ?? new Map()
       const parentChildrenTotalCents = sum(parentExpenseRows)
 
       return [

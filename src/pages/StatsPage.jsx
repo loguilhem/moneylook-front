@@ -4,7 +4,7 @@ import { useAppContext } from '../context/AppContext'
 import {
   AnnualStatsSection,
   DEFAULT_MONTH_LABELS,
-  MonthlyAccountEvolutionSection,
+  StatTable,
   StatsBreakdownGrid,
   StatsDateFilters,
   StatsOverviewSection,
@@ -15,7 +15,7 @@ import {
 } from '../components/stats'
 
 function StatsPage() {
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   const { error, loading, store, loadAll } = useAppContext()
   const defaultRange = useMemo(() => getDefaultRange(), [])
   const allExpenses = store.expenses ?? []
@@ -31,6 +31,10 @@ function StatsPage() {
   const [startDate, setStartDate] = useState(defaultRange.startDate)
   const [endDate, setEndDate] = useState(defaultRange.endDate)
   const [selectedYear, setSelectedYear] = useState(years[0] ?? new Date().getFullYear())
+  const todayLabel = useMemo(
+    () => new Intl.DateTimeFormat(i18n.language).format(new Date()),
+    [i18n.language],
+  )
 
   const stats = useMemo(
     () =>
@@ -70,23 +74,38 @@ function StatsPage() {
         </p>
       ) : null}
 
-      <StatsOverviewSection stats={stats} t={t} />
+      <section className="stats-section" aria-labelledby="selected-period-stats-title">
+        <div className="stats-section-heading">
+          <h2 id="selected-period-stats-title">{t('stats.selectedPeriod.title')}</h2>
+        </div>
+        <StatsOverviewSection stats={stats} t={t} />
+        <div className="stats-grid" aria-label={t('stats.details')}>
+          <StatsBreakdownGrid stats={stats} t={t} />
+        </div>
+      </section>
 
-      <section className="stats-grid" aria-label={t('stats.details')}>
-        <StatsBreakdownGrid stats={stats} t={t} />
-        <AnnualStatsSection
-          annualRows={stats.annualRows}
-          onYearChange={setSelectedYear}
-          selectedYear={selectedYear}
-          t={t}
-          years={years}
-        />
-        <MonthlyAccountEvolutionSection
-          columns={stats.monthlyAccountColumns}
-          rows={stats.monthlyAccountRows}
-          selectedYear={selectedYear}
-          t={t}
-        />
+      <section className="stats-section stats-annual-section" aria-labelledby="annual-stats-title">
+        <div className="stats-section-heading">
+          <h2 id="annual-stats-title">{t('stats.annualSection.title')}</h2>
+        </div>
+        <div className="stats-grid" aria-label={t('stats.annualSection.title')}>
+          <AnnualStatsSection
+            annualRows={stats.annualRows}
+            onYearChange={setSelectedYear}
+            selectedYear={selectedYear}
+            t={t}
+            years={years}
+          />
+          <StatTable
+            columns={[
+              { key: 'account_type', label: t('resources.fields.accountType') },
+              { key: 'amount_cents', label: t('resources.fields.amount'), type: 'money' },
+            ]}
+            rows={stats.accountTypeRows}
+            title={t('stats.treasurySavings.currentBalanceTitle', { date: todayLabel })}
+            t={t}
+          />
+        </div>
       </section>
     </main>
   )
